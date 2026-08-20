@@ -28,65 +28,33 @@ jobs:
           mkdir -p data
 
           curl -s \
-            --request GET \
-            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=39&season=2026" \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}" \
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
-            -o data/premier-league.json
+            -o data/all-matches.json
 
-          curl -s \
-            --request GET \
-            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=140&season=2026" \
-            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
-            -o data/la-liga.json
-
-          curl -s \
-            --request GET \
-            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=135&season=2026" \
-            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
-            -o data/serie-a.json
-
-          curl -s \
-            --request GET \
-            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=2&season=2026" \
-            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
-            -o data/champions-league.json
-
-      - name: Create combined matches file
+      - name: Create GOALIX data
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
+          from datetime import datetime, timezone
 
-          files = [
-              "data/premier-league.json",
-              "data/la-liga.json",
-              "data/serie-a.json",
-              "data/champions-league.json"
-          ]
+          source = Path("data/all-matches.json")
 
-          matches = []
+          try:
+              data = json.loads(source.read_text())
+          except Exception:
+              data = {}
 
-          for filename in files:
-              path = Path(filename)
+          matches = data.get("response", [])
 
-              if not path.exists():
-                  continue
-
-              try:
-                  data = json.loads(path.read_text())
-                  matches.extend(data.get("response", []))
-              except Exception:
-                  pass
+          output = {
+              "updated": datetime.now(timezone.utc).isoformat(),
+              "matches": matches
+          }
 
           Path("data/matches.json").write_text(
-              json.dumps(
-                  {
-                      "updated": __import__("datetime").datetime.utcnow().isoformat() + "Z",
-                      "matches": matches
-                  },
-                  ensure_ascii=False,
-                  indent=2
-              )
+              json.dumps(output, ensure_ascii=False, indent=2)
           )
           PY
 
