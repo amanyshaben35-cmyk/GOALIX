@@ -16,23 +16,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get today's date
+      - name: Get Egypt date
         id: date
-        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch football matches
+      - name: Fetch today's matches
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           TODAY: ${{ steps.date.outputs.today }}
         run: |
           mkdir -p data
 
-          curl -s \
-            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}" \
+          curl --fail-with-body -sS \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&timezone=Africa/Cairo" \
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
             -o data/all-matches.json
 
-      - name: Create GOALIX data
+      - name: Build GOALIX matches
         run: |
           python3 - <<'PY'
           import json
@@ -40,11 +41,7 @@ jobs:
           from datetime import datetime, timezone
 
           source = Path("data/all-matches.json")
-
-          try:
-              data = json.loads(source.read_text())
-          except Exception:
-              data = {}
+          data = json.loads(source.read_text())
 
           matches = data.get("response", [])
 
@@ -56,9 +53,11 @@ jobs:
           Path("data/matches.json").write_text(
               json.dumps(output, ensure_ascii=False, indent=2)
           )
+
+          print("Number of matches:", len(matches))
           PY
 
-      - name: Commit updated data
+      - name: Save data
         run: |
           git config user.name "GOALIX Bot"
           git config user.email "actions@github.com"
@@ -68,6 +67,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update GOALIX match data"
+            git commit -m "Update GOALIX matches"
             git push
           fi
