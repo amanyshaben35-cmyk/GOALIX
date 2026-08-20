@@ -1,4 +1,26 @@
-let matches = [];
+let matches = [
+  {
+    id: 1,
+    league: "الدوري الإنجليزي الممتاز",
+    home: "أرسنال",
+    away: "مانشستر سيتي",
+    time: "20:00"
+  },
+  {
+    id: 2,
+    league: "الدوري الإسباني",
+    home: "برشلونة",
+    away: "ريال مدريد",
+    time: "22:00"
+  },
+  {
+    id: 3,
+    league: "الدوري الإيطالي",
+    home: "إنتر",
+    away: "ميلان",
+    time: "21:45"
+  }
+];
 
 const grid = document.getElementById("matches");
 
