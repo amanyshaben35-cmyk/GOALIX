@@ -8,7 +8,7 @@ const matches = [
   },
   {
     id: 2,
-    league: "La Liga",
+league: "La Liga",
     home: "Barcelona",
     away: "Real Madrid",
     time: "22:00"
