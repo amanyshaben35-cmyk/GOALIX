@@ -1,1 +1,401 @@
-*{box-sizing:border-box}body{margin:0;background:#0a1020;color:#f7f9fc;font-family:Arial,Tahoma,sans-serif}header{height:68px;background:#11192d;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:2}.logo{font-size:28px;font-weight:900}.logo span{color:#27d17f}button{border:0;cursor:pointer}#theme{background:#202a45;color:#fff;border-radius:12px;padding:10px 14px;font-size:18px}main{max-width:760px;margin:auto}.hero{margin:18px;padding:28px 22px;border-radius:22px;background:linear-gradient(135deg,#17335b,#0c7954);box-shadow:0 15px 35px #0005}.hero small{color:#75f0b2;font-weight:bold}.hero h1{font-size:30px;margin:8px 0}.hero p{color:#d9e4ed;line-height:1.7;margin:0}nav{display:flex;gap:8px;padding:0 18px 15px}nav button{flex:1;background:#151e34;color:#b9c4d7;padding:12px;border-radius:12px;font-weight:bold;border:1px solid #2a3652}nav button.active{background:#27d17f;color:#07150e}.page{display:none;padding:0 18px 25px}.page.active{display:block}.head{display:flex;align-items:center;justify-content:space-between}.head span{font-size:12px;color:#8290a7}.match{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;background:#141d33;border:1px solid #293653;border-radius:17px;padding:15px;margin:10px 0}.team{text-align:center;font-weight:bold}.middle{text-align:center}.time{font-size:19px;font-weight:bold}.status{display:inline-block;margin-top:5px;padding:4px 8px;background:#26344f;color:#9cecc5;border-radius:8px;font-size:11px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid div{background:#141d33;border:1px solid #293653;border-radius:16px;padding:18px;text-align:center;font-weight:bold;line-height:1.8}.grid small{display:block;color:#8997ad;font-weight:normal}footer{max-width:760px;margin:auto;padding:22px 18px;color:#748099;font-size:12px;display:flex;justify-content:space-between;border-top:1px solid #1d2740}body.light{background:#f3f6f9;color:#111827}body.light header,body.light nav button,body.light .match,body.light .grid div{background:#fff;color:#111827}body.light .match,body.light .grid div,body.light nav button{border-color:#dde3eb}
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #070d19;
+  --surface: #101a2d;
+  --surface-2: #15223a;
+  --border: #263653;
+  --text: #f7f9fc;
+  --muted: #8d9ab0;
+  --green: #27d17f;
+  --green-dark: #0d8f55;
+  --blue: #1d4ed8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top right, #12365a 0, transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, Tahoma, sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  height: 68px;
+  background: rgba(11, 18, 34, 0.94);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #ffffff0d;
+}
+
+.logo {
+  font-size: 29px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logo span {
+  color: var(--green);
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+#theme {
+  background: var(--surface-2);
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 9px 13px;
+  font-size: 18px;
+}
+
+main {
+  max-width: 760px;
+  margin: auto;
+}
+
+.hero {
+  margin: 18px;
+  padding: 30px 22px;
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, #173d68, #0a7850);
+  box-shadow: 0 18px 45px #0007;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::after {
+  content: "⚽";
+  position: absolute;
+  left: -10px;
+  bottom: -35px;
+  font-size: 120px;
+  opacity: 0.08;
+}
+
+.hero small {
+  color: #7ff2b8;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  margin: 10px 0;
+}
+
+.hero p {
+  color: #d9e4ed;
+  line-height: 1.8;
+  margin: 0 0 20px;
+}
+
+.hero-button {
+  background: var(--green);
+  color: #06140d;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 900;
+  position: relative;
+  z-index: 1;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+  padding: 0 18px 15px;
+}
+
+nav button {
+  flex: 1;
+  background: var(--surface);
+  color: #b9c4d7;
+  padding: 13px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+nav button.active {
+  background: var(--green);
+  color: #07150e;
+  border-color: var(--green);
+}
+
+.page {
+  display: none;
+  padding: 0 18px 25px;
+}
+
+.page.active {
+  display: block;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.head h2,
+.page > h2 {
+  margin: 8px 0 14px;
+  font-size: 22px;
+}
+
+.head span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Match cards */
+
+.match-card {
+  background: linear-gradient(145deg, #111d32, #0d1728);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 11px 0;
+  box-shadow: 0 10px 25px #0003;
+}
+
+.league {
+  color: #7ff2b8;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.match-time {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.team {
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.vs {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1d2a43;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8fa1ba;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.choice {
+  background: #192741;
+  color: #dbe5f2;
+  border: 1px solid #2c3c5b;
+  border-radius: 10px;
+  padding: 10px 5px;
+  font-size: 11px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.choice:hover,
+.choice:active {
+  background: var(--green);
+  color: #06140d;
+  border-color: var(--green);
+}
+
+#analysis {
+  background: #0d1c2c;
+  border: 1px solid #214a3a;
+  color: #8df1bd;
+  border-radius: 14px;
+  padding: 13px;
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 20px;
+}
+
+/* Leagues and teams */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 10px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.8;
+  transition: 0.2s;
+}
+
+.grid div:hover {
+  transform: translateY(-2px);
+  border-color: var(--green);
+}
+
+.grid small {
+  display: block;
+  color: var(--muted);
+  font-weight: normal;
+  font-size: 11px;
+}
+
+footer {
+  max-width: 760px;
+  margin: auto;
+  padding: 22px 18px;
+  color: #748099;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid #1d2740;
+}
+
+/* Toast */
+
+.toast {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  background: #17243a;
+  color: #fff;
+  border: 1px solid #2d4263;
+  border-radius: 12px;
+  padding: 12px 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 100;
+  font-size: 13px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .hero {
+    margin: 14px;
+    padding: 25px 18px;
+  }
+
+  .hero h1 {
+    font-size: 25px;
+  }
+
+  .page {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  nav {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .team {
+    font-size: 13px;
+  }
+
+  .choice {
+    font-size: 10px;
+  }
+
+  footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Light mode */
+
+body.light {
+  --bg: #f3f6fa;
+  --surface: #ffffff;
+  --surface-2: #edf2f7;
+  --border: #dce3ec;
+  --text: #111827;
+  --muted: #667085;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body.light header {
+  background: rgba(255, 255, 255, 0.94);
+}
+
+body.light #theme {
+  color: #111827;
+}
+
+body.light .match-card,
+body.light .grid div,
+body.light nav button {
+  background: #fff;
+  color: #111827;
+}
+
+body.light .vs,
+body.light .choice {
+  background: #f1f4f8;
+  color: #263244;
+}
+
+body.light #analysis {
+  background: #ecfdf5;
+  color: #087443;
+}
