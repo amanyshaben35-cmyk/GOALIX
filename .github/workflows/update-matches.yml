@@ -1,0 +1,105 @@
+name: Update GOALIX Matches
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-matches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get today's date
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch football matches
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          TODAY: ${{ steps.date.outputs.today }}
+        run: |
+          mkdir -p data
+
+          curl -s \
+            --request GET \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=39&season=2026" \
+            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
+            -o data/premier-league.json
+
+          curl -s \
+            --request GET \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=140&season=2026" \
+            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
+            -o data/la-liga.json
+
+          curl -s \
+            --request GET \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=135&season=2026" \
+            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
+            -o data/serie-a.json
+
+          curl -s \
+            --request GET \
+            --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&league=2&season=2026" \
+            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
+            -o data/champions-league.json
+
+      - name: Create combined matches file
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          files = [
+              "data/premier-league.json",
+              "data/la-liga.json",
+              "data/serie-a.json",
+              "data/champions-league.json"
+          ]
+
+          matches = []
+
+          for filename in files:
+              path = Path(filename)
+
+              if not path.exists():
+                  continue
+
+              try:
+                  data = json.loads(path.read_text())
+                  matches.extend(data.get("response", []))
+              except Exception:
+                  pass
+
+          Path("data/matches.json").write_text(
+              json.dumps(
+                  {
+                      "updated": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+                      "matches": matches
+                  },
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+          PY
+
+      - name: Commit updated data
+        run: |
+          git config user.name "GOALIX Bot"
+          git config user.email "actions@github.com"
+
+          git add data/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update GOALIX match data"
+            git push
+          fi
