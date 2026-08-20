@@ -2,8 +2,6 @@ name: Update GOALIX Matches
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
@@ -13,60 +11,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Get Egypt date
         id: date
-        run: |
-          echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+        run: echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch today's matches
+      - name: Fetch matches
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           TODAY: ${{ steps.date.outputs.today }}
         run: |
           mkdir -p data
 
-          curl --fail-with-body -sS \
+          curl -sS \
             --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&timezone=Africa/Cairo" \
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
             -o data/all-matches.json
 
-      - name: Build GOALIX matches
+      - name: Build data
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
-          from datetime import datetime, timezone
 
-          source = Path("data/all-matches.json")
-          data = json.loads(source.read_text())
-
+          data = json.loads(Path("data/all-matches.json").read_text())
           matches = data.get("response", [])
 
-          output = {
-              "updated": datetime.now(timezone.utc).isoformat(),
-              "matches": matches
-          }
+          print("MATCHES:", len(matches))
 
           Path("data/matches.json").write_text(
-              json.dumps(output, ensure_ascii=False, indent=2)
+              json.dumps(
+                  {"matches": matches},
+                  ensure_ascii=False,
+                  indent=2
+              )
           )
-
-          print("Number of matches:", len(matches))
           PY
 
-      - name: Save data
+      - name: Save
         run: |
           git config user.name "GOALIX Bot"
           git config user.email "actions@github.com"
-
           git add data/
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Update GOALIX matches"
-            git push
-          fi
+          git commit -m "Update GOALIX matches" || true
+          git push
