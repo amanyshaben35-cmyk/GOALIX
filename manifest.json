@@ -1,1 +1,13 @@
-
+{
+  "name": "GOALIX Sports",
+  "short_name": "GOALIX",
+  "description": "نتائج ومباريات وإحصائيات وتحليلات رياضية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/GOALIX/",
+  "scope": "/GOALIX/",
+  "display": "standalone",
+  "background_color": "#070d19",
+  "theme_color": "#27d17f",
+  "orientation": "portrait-primary"
+}
