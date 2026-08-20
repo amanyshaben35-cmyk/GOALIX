@@ -1,4 +1,1653 @@
 {
-  "updated": "2026-08-20T01:39:00.178581Z",
-  "matches": []
+  "updated": "2026-08-20T06:22:58.619975+03:00",
+  "matches": [
+    {
+      "id": 1513295,
+      "league": "MLS Next Pro",
+      "home": "New York City II",
+      "away": "FC Cincinnati II",
+      "time": "00:00",
+      "status": "FT"
+    },
+    {
+      "id": 1549713,
+      "league": "Primera A",
+      "home": "Águilas Doradas",
+      "away": "Llaneros",
+      "time": "00:00",
+      "status": "FT"
+    },
+    {
+      "id": 1559595,
+      "league": "Liga Nacional",
+      "home": "Cobán Imperial",
+      "away": "Antigua GFC",
+      "time": "00:00",
+      "status": "FT"
+    },
+    {
+      "id": 1628972,
+      "league": "Friendlies Women",
+      "home": "United States W U17",
+      "away": "Canada W U17",
+      "time": "00:00",
+      "status": "NS"
+    },
+    {
+      "id": 1546108,
+      "league": "Copa Paulista",
+      "home": "União São João",
+      "away": "Noroeste",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1547765,
+      "league": "CONMEBOL Libertadores",
+      "home": "Cerro Porteno",
+      "away": "Palmeiras",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1547766,
+      "league": "CONMEBOL Libertadores",
+      "home": "Coquimbo Unido",
+      "away": "Platense",
+      "time": "01:00",
+      "status": "PEN"
+    },
+    {
+      "id": 1607200,
+      "league": "CONMEBOL Sudamericana",
+      "home": "Atletico-MG",
+      "away": "RB Bragantino",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1610965,
+      "league": "CONCACAF Caribbean Club Championship",
+      "home": "Delfines Del Este",
+      "away": "Violette AC",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1611958,
+      "league": "Reserve League",
+      "home": "Talleres Córdoba Res.",
+      "away": "Rosario Central Res.",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1619656,
+      "league": "Copa de la División Profesional",
+      "home": "Independiente Petrolero",
+      "away": "Blooming",
+      "time": "01:00",
+      "status": "FT"
+    },
+    {
+      "id": 1593678,
+      "league": "Copa Argentina",
+      "home": "Racing Club",
+      "away": "Belgrano Cordoba",
+      "time": "01:15",
+      "status": "FT"
+    },
+    {
+      "id": 1508511,
+      "league": "NWSL Women",
+      "home": "Racing Louisville W",
+      "away": "Seattle Reign FC W",
+      "time": "01:30",
+      "status": "FT"
+    },
+    {
+      "id": 1520821,
+      "league": "Serie B",
+      "home": "Avai",
+      "away": "Sport Recife",
+      "time": "01:30",
+      "status": "FT"
+    },
+    {
+      "id": 1520824,
+      "league": "Serie B",
+      "home": "Fortaleza EC",
+      "away": "São Bernardo",
+      "time": "01:30",
+      "status": "FT"
+    },
+    {
+      "id": 1548273,
+      "league": "Capixaba B",
+      "home": "Pinheiros",
+      "away": "Estrela do Norte",
+      "time": "01:30",
+      "status": "FT"
+    },
+    {
+      "id": 1493951,
+      "league": "USL League One",
+      "home": "One Knoxville",
+      "away": "Portland Hearts of Pine",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1513296,
+      "league": "MLS Next Pro",
+      "home": "Crown Legacy",
+      "away": "Connecticut FC",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1513297,
+      "league": "MLS Next Pro",
+      "home": "Houston Dynamo FC II",
+      "away": "The Town",
+      "time": "02:00",
+      "status": "PEN"
+    },
+    {
+      "id": 1513298,
+      "league": "MLS Next Pro",
+      "home": "Inter Miami II",
+      "away": "New England II",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1517329,
+      "league": "Canadian Premier League",
+      "home": "Atlético Ottawa",
+      "away": "Vancouver FC",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1517330,
+      "league": "Canadian Premier League",
+      "home": "Forge",
+      "away": "Supra du Quebec",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1549696,
+      "league": "Primera A",
+      "home": "Cucuta",
+      "away": "Internacional de Bogota",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1560807,
+      "league": "Copa Venezuela",
+      "home": "Atletico Avila FC",
+      "away": "Petare FC",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1560810,
+      "league": "Copa Venezuela",
+      "home": "Deportivo Lara",
+      "away": "Rayo Zuliano",
+      "time": "02:00",
+      "status": "FT"
+    },
+    {
+      "id": 1607640,
+      "league": "Copa Colombia",
+      "home": "Internacional de Bogota",
+      "away": "Real Cundinamarca",
+      "time": "02:00",
+      "status": "PST"
+    },
+    {
+      "id": 1490391,
+      "league": "Major League Soccer",
+      "home": "Philadelphia Union",
+      "away": "Inter Miami",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490392,
+      "league": "Major League Soccer",
+      "home": "FC Cincinnati",
+      "away": "New York City FC",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490393,
+      "league": "Major League Soccer",
+      "home": "Columbus Crew",
+      "away": "CF Montreal",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490394,
+      "league": "Major League Soccer",
+      "home": "New York Red Bulls",
+      "away": "Nashville SC",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490395,
+      "league": "Major League Soccer",
+      "home": "Orlando City SC",
+      "away": "Chicago Fire",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490396,
+      "league": "Major League Soccer",
+      "home": "Toronto FC",
+      "away": "Charlotte",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490397,
+      "league": "Major League Soccer",
+      "home": "DC United",
+      "away": "New England Revolution",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1493952,
+      "league": "USL League One",
+      "home": "Sarasota Paradise",
+      "away": "Chattanooga Red Wolves",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1520823,
+      "league": "Serie B",
+      "home": "Cuiaba",
+      "away": "Operario-PR",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1520829,
+      "league": "Serie B",
+      "home": "Vila Nova",
+      "away": "Ponte Preta",
+      "time": "02:30",
+      "status": "FT"
+    },
+    {
+      "id": 1490398,
+      "league": "Major League Soccer",
+      "home": "Sporting Kansas City",
+      "away": "St. Louis City",
+      "time": "03:00",
+      "status": "FT"
+    },
+    {
+      "id": 1508512,
+      "league": "NWSL Women",
+      "home": "Houston Dash W",
+      "away": "Chicago Red Stars W",
+      "time": "03:00",
+      "status": "FT"
+    },
+    {
+      "id": 1619657,
+      "league": "Copa de la División Profesional",
+      "home": "Nacional Potosí",
+      "away": "Real Tomayapo",
+      "time": "03:00",
+      "status": "PST"
+    },
+    {
+      "id": 1490399,
+      "league": "Major League Soccer",
+      "home": "Minnesota United FC",
+      "away": "Atlanta United FC",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1493950,
+      "league": "USL League One",
+      "home": "Corpus Christi",
+      "away": "NY Cosmos",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1520822,
+      "league": "Serie B",
+      "home": "Botafogo SP",
+      "away": "Criciuma",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1547768,
+      "league": "CONMEBOL Libertadores",
+      "home": "Flamengo",
+      "away": "Cruzeiro",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1606079,
+      "league": "CONMEBOL Sudamericana",
+      "home": "Atletico Torque",
+      "away": "Tigre",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1607650,
+      "league": "CONMEBOL Sudamericana",
+      "home": "Santa Fe",
+      "away": "River Plate",
+      "time": "03:30",
+      "status": "FT"
+    },
+    {
+      "id": 1611288,
+      "league": "Copa Colombia",
+      "home": "Once Caldas",
+      "away": "Alianza Valledupar",
+      "time": "03:30",
+      "status": "PST"
+    },
+    {
+      "id": 1513300,
+      "league": "MLS Next Pro",
+      "home": "North Texas",
+      "away": "Austin II",
+      "time": "03:45",
+      "status": "PEN"
+    },
+    {
+      "id": 1548363,
+      "league": "CONCACAF Central American Cup",
+      "home": "Mixco",
+      "away": "UMECIT",
+      "time": "04:00",
+      "status": "FT"
+    },
+    {
+      "id": 1548364,
+      "league": "CONCACAF Central American Cup",
+      "home": "CD Marathon",
+      "away": "Alianza",
+      "time": "04:00",
+      "status": "FT"
+    },
+    {
+      "id": 1549592,
+      "league": "Primera B",
+      "home": "Patriotas",
+      "away": "Orsomarso",
+      "time": "04:10",
+      "status": "FT"
+    },
+    {
+      "id": 1490400,
+      "league": "Major League Soccer",
+      "home": "Colorado Rapids",
+      "away": "Los Angeles FC",
+      "time": "04:30",
+      "status": "2H"
+    },
+    {
+      "id": 1490401,
+      "league": "Major League Soccer",
+      "home": "Seattle Sounders",
+      "away": "Austin",
+      "time": "04:30",
+      "status": "2H"
+    },
+    {
+      "id": 1490402,
+      "league": "Major League Soccer",
+      "home": "Real Salt Lake",
+      "away": "FC Dallas",
+      "time": "04:30",
+      "status": "2H"
+    },
+    {
+      "id": 1493639,
+      "league": "USL Championship",
+      "home": "Phoenix Rising",
+      "away": "Colorado Springs",
+      "time": "05:00",
+      "status": "2H"
+    },
+    {
+      "id": 1490403,
+      "league": "Major League Soccer",
+      "home": "Los Angeles Galaxy",
+      "away": "San Jose Earthquakes",
+      "time": "05:30",
+      "status": "1H"
+    },
+    {
+      "id": 1490404,
+      "league": "Major League Soccer",
+      "home": "Vancouver Whitecaps",
+      "away": "Houston Dynamo",
+      "time": "05:30",
+      "status": "1H"
+    },
+    {
+      "id": 1490405,
+      "league": "Major League Soccer",
+      "home": "Portland Timbers",
+      "away": "San Diego",
+      "time": "05:30",
+      "status": "1H"
+    },
+    {
+      "id": 1548365,
+      "league": "CONCACAF Central American Cup",
+      "home": "FAS",
+      "away": "Municipal",
+      "time": "06:00",
+      "status": "1H"
+    },
+    {
+      "id": 1578044,
+      "league": "AFC Women's Champions League",
+      "home": "Rovers FC W",
+      "away": "East Bengal W",
+      "time": "11:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578046,
+      "league": "AFC Women's Champions League",
+      "home": "S'Amuser W",
+      "away": "April W",
+      "time": "12:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611338,
+      "league": "Cup",
+      "home": "Dinaz Vyshhorod",
+      "away": "Yarud Mariupol'",
+      "time": "12:00",
+      "status": "NS"
+    },
+    {
+      "id": 1519617,
+      "league": "Esiliiga A",
+      "home": "Elva",
+      "away": "Maardu",
+      "time": "12:30",
+      "status": "NS"
+    },
+    {
+      "id": 1578041,
+      "league": "AFC Women's Champions League",
+      "home": "No Limits FC W",
+      "away": "Ayeyawady W",
+      "time": "12:30",
+      "status": "NS"
+    },
+    {
+      "id": 1627684,
+      "league": "Calcutta Premier Division",
+      "home": "Aryan",
+      "away": "Measurers",
+      "time": "12:30",
+      "status": "NS"
+    },
+    {
+      "id": 1627685,
+      "league": "Calcutta Premier Division",
+      "home": "Rainbow",
+      "away": "Kalighat Club",
+      "time": "12:30",
+      "status": "NS"
+    },
+    {
+      "id": 1534832,
+      "league": "1. Division",
+      "home": "Tobol 2",
+      "away": "Khan Tengri",
+      "time": "13:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578042,
+      "league": "AFC Women's Champions League",
+      "home": "Phnom Penh W",
+      "away": "Kaya W",
+      "time": "13:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627532,
+      "league": "Nasjonal U19 Champions League",
+      "home": "Tromsø U19",
+      "away": "Lillestrøm U19",
+      "time": "14:00",
+      "status": "NS"
+    },
+    {
+      "id": 1628990,
+      "league": "Friendlies",
+      "home": "India U20",
+      "away": "Yemen U20",
+      "time": "14:00",
+      "status": "NS"
+    },
+    {
+      "id": 1519618,
+      "league": "Esiliiga A",
+      "home": "FC Tallinn",
+      "away": "Nõmme United II",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1519619,
+      "league": "Esiliiga A",
+      "home": "Nõmme Kalju II",
+      "away": "Tallinna Kalev",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1519620,
+      "league": "Esiliiga A",
+      "home": "Tartu Welco",
+      "away": "FCI Levadia II",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1521665,
+      "league": "Esiliiga B",
+      "home": "Johvi Phoenix",
+      "away": "JK Tabasalu",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1521666,
+      "league": "Esiliiga B",
+      "home": "Parnu JK Vaprus U21",
+      "away": "Tulevik",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1521667,
+      "league": "Esiliiga B",
+      "home": "Tartu Kalev",
+      "away": "Luunja",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1530990,
+      "league": "Pro League A",
+      "home": "Lochin",
+      "away": "Jayxun",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1530992,
+      "league": "Pro League A",
+      "home": "Olimpik-Mobiuz",
+      "away": "Aral",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1534828,
+      "league": "1. Division",
+      "home": "Akademiya Ontustik",
+      "away": "Ekibastuz",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1534829,
+      "league": "1. Division",
+      "home": "Arys",
+      "away": "Taraz",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1534834,
+      "league": "1. Division",
+      "home": "Yelimay Semey 2",
+      "away": "Aktobe Jas",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578035,
+      "league": "AFC Women's Champions League",
+      "home": "Al Nassr W",
+      "away": "Bam Khatoon W",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578039,
+      "league": "AFC Women's Champions League",
+      "home": "Kharaatsai W",
+      "away": "BGC Asian Scholars W",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578040,
+      "league": "AFC Women's Champions League",
+      "home": "Master W",
+      "away": "Banaat W",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578043,
+      "league": "AFC Women's Champions League",
+      "home": "Rajshahi W",
+      "away": "Sabah W",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1581508,
+      "league": "Premier League",
+      "home": "Van",
+      "away": "Syunik",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611332,
+      "league": "Premier League",
+      "home": "Drukpa",
+      "away": "Thimphu City",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611740,
+      "league": "U19 League",
+      "home": "Karpaty Lviv U19",
+      "away": "Rukh Vynnyky U19",
+      "time": "15:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578038,
+      "league": "AFC Women's Champions League",
+      "home": "Jurong W",
+      "away": "Hang Yuan W",
+      "time": "15:30",
+      "status": "NS"
+    },
+    {
+      "id": 1507410,
+      "league": "Liga 3",
+      "home": "Betlemi",
+      "away": "Merani Tbilisi",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507411,
+      "league": "Liga 3",
+      "home": "Gardabani",
+      "away": "Didube 2014",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507413,
+      "league": "Liga 3",
+      "home": "Iberia 2010",
+      "away": "Varketili",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507415,
+      "league": "Liga 3",
+      "home": "Kolkheti Khobi",
+      "away": "WIT Georgia",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507417,
+      "league": "Liga 3",
+      "home": "Margveti 2006",
+      "away": "Irao",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1600745,
+      "league": "Ligi kuu Bara",
+      "home": "Polisi Tanzania",
+      "away": "JKT Tanzania",
+      "time": "16:00",
+      "status": "NS"
+    },
+    {
+      "id": 1594796,
+      "league": "Second League",
+      "home": "El Entag EL Harby",
+      "away": "AL Nasr SC",
+      "time": "16:30",
+      "status": "NS"
+    },
+    {
+      "id": 1594797,
+      "league": "Second League",
+      "home": "El Mansura",
+      "away": "Baladiyyat Al Mehalla",
+      "time": "16:30",
+      "status": "NS"
+    },
+    {
+      "id": 1594798,
+      "league": "Second League",
+      "home": "Haras El Hodood",
+      "away": "Itesalat",
+      "time": "16:30",
+      "status": "NS"
+    },
+    {
+      "id": 1594799,
+      "league": "Second League",
+      "home": "La Viena FC",
+      "away": "Kahraba Ismailia",
+      "time": "16:30",
+      "status": "NS"
+    },
+    {
+      "id": 1595138,
+      "league": "Second League",
+      "home": "El Dakhleya",
+      "away": "Mega Sport",
+      "time": "16:30",
+      "status": "NS"
+    },
+    {
+      "id": 1516105,
+      "league": "Super League",
+      "home": "Bunyodkor",
+      "away": "Kokand-1912",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1530991,
+      "league": "Pro League A",
+      "home": "Qiziriq",
+      "away": "Metalourg",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1531086,
+      "league": "Pro League A",
+      "home": "Yaypan",
+      "away": "Pakhtakor II",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578037,
+      "league": "AFC Women's Champions League",
+      "home": "Ilbirs W",
+      "away": "TSL FC W",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627521,
+      "league": "Cupa României",
+      "home": "CSA Steaua Bucureşti",
+      "away": "Csikszereda",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1628991,
+      "league": "Friendlies",
+      "home": "Brazil U17",
+      "away": "Venezuela U17",
+      "time": "17:00",
+      "status": "NS"
+    },
+    {
+      "id": 1597908,
+      "league": "Stars League",
+      "home": "Al Wakrah",
+      "away": "Qatar SC",
+      "time": "17:15",
+      "status": "NS"
+    },
+    {
+      "id": 1627522,
+      "league": "Cupa României",
+      "home": "Viitorul Şelimbăr",
+      "away": "FC Botosani",
+      "time": "17:30",
+      "status": "NS"
+    },
+    {
+      "id": 1504287,
+      "league": "Ykkösliiga",
+      "home": "KäPa",
+      "away": "JIPPO",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507416,
+      "league": "Liga 3",
+      "home": "Lokomotivi Tbilisi",
+      "away": "Gonio",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1516112,
+      "league": "Super League",
+      "home": "Xorazm",
+      "away": "Lokomotiv",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1577489,
+      "league": "First League",
+      "home": "FK Neftekhimik",
+      "away": "FC Sochi",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578036,
+      "league": "AFC Women's Champions League",
+      "home": "CSKA Pomir Dushanbe W",
+      "away": "Etihad Club W",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1578045,
+      "league": "AFC Women's Champions League",
+      "home": "RTC W",
+      "away": "Nasaf W",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1618950,
+      "league": "Friendlies Clubs",
+      "home": "Città di Varese",
+      "away": "Pro Palazzolo",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623435,
+      "league": "UEFA Europa League",
+      "home": "Kairat Almaty",
+      "away": "Anderlecht",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627533,
+      "league": "Nasjonal U19 Champions League",
+      "home": "Rosenborg U19",
+      "away": "HamKam U19",
+      "time": "18:00",
+      "status": "NS"
+    },
+    {
+      "id": 1577486,
+      "league": "First League",
+      "home": "Arsenal Tula",
+      "away": "Rotor Volgograd",
+      "time": "18:30",
+      "status": "NS"
+    },
+    {
+      "id": 1600746,
+      "league": "Ligi kuu Bara",
+      "home": "Young Africans",
+      "away": "Coastal Union",
+      "time": "18:30",
+      "status": "NS"
+    },
+    {
+      "id": 1627042,
+      "league": "Iraqi League",
+      "home": "Naft Maysan",
+      "away": "Naft",
+      "time": "18:30",
+      "status": "NS"
+    },
+    {
+      "id": 1627052,
+      "league": "Iraqi League",
+      "home": "Ghaz Al Shamal",
+      "away": "Al Kahrabaa",
+      "time": "18:30",
+      "status": "NS"
+    },
+    {
+      "id": 1525945,
+      "league": "Premier League",
+      "home": "Dinamo Minsk",
+      "away": "Torpedo Zhodino",
+      "time": "18:45",
+      "status": "NS"
+    },
+    {
+      "id": 1495375,
+      "league": "Toppserien",
+      "home": "Rosenborg W",
+      "away": "Lyn W",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1507414,
+      "league": "Liga 3",
+      "home": "Iveria Khashuri",
+      "away": "Dinamo Tbilisi II",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1598643,
+      "league": "Liga Revelação U23",
+      "home": "Benfica U23",
+      "away": "Rio Ave U23",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623395,
+      "league": "UEFA Europa Conference League",
+      "home": "Inter Turku",
+      "away": "FC Copenhagen",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623396,
+      "league": "UEFA Europa Conference League",
+      "home": "Lincoln Red Imps FC",
+      "away": "Larne",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623434,
+      "league": "UEFA Europa League",
+      "home": "Jagiellonia",
+      "away": "Saburtalo",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623436,
+      "league": "UEFA Europa League",
+      "home": "Mjallby AIF",
+      "away": "Red Bull Salzburg",
+      "time": "19:00",
+      "status": "NS"
+    },
+    {
+      "id": 1548085,
+      "league": "Svenska Cupen",
+      "home": "Vasalund",
+      "away": "IFK Norrkoping",
+      "time": "19:30",
+      "status": "NS"
+    },
+    {
+      "id": 1549141,
+      "league": "Svenska Cupen",
+      "home": "Piteå",
+      "away": "AIK Stockholm",
+      "time": "19:30",
+      "status": "NS"
+    },
+    {
+      "id": 1560923,
+      "league": "Svenska Cupen",
+      "home": "Hässleholms IF",
+      "away": "Landskrona BoIS",
+      "time": "19:30",
+      "status": "NS"
+    },
+    {
+      "id": 1561327,
+      "league": "Svenska Cupen",
+      "home": "Arlanda",
+      "away": "Ostersunds FK",
+      "time": "19:30",
+      "status": "NS"
+    },
+    {
+      "id": 1597909,
+      "league": "Stars League",
+      "home": "Al-Rayyan SC",
+      "away": "Lusail City",
+      "time": "19:30",
+      "status": "NS"
+    },
+    {
+      "id": 1551317,
+      "league": "1. Division",
+      "home": "Vendsyssel FF",
+      "away": "Hillerød",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611963,
+      "league": "Reserve League",
+      "home": "Platense Res.",
+      "away": "Colón Res.",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1612597,
+      "league": "Copa Paraguay",
+      "home": "Humaitá",
+      "away": "2 de Mayo",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623398,
+      "league": "UEFA Europa Conference League",
+      "home": "FC Midtjylland",
+      "away": "HNK Rijeka",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623400,
+      "league": "UEFA Europa Conference League",
+      "home": "FC Nordsjaelland",
+      "away": "FC ST. Gallen",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623406,
+      "league": "UEFA Europa Conference League",
+      "home": "Tromso",
+      "away": "Brighton",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623432,
+      "league": "UEFA Europa League",
+      "home": "Beşiktaş",
+      "away": "Kauno Žalgiris",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623433,
+      "league": "UEFA Europa League",
+      "home": "Egnatia Rrogozhinë",
+      "away": "Lillestrom",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623439,
+      "league": "UEFA Europa League",
+      "home": "Trabzonspor",
+      "away": "Ferencvarosi TC",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623440,
+      "league": "UEFA Europa League",
+      "home": "Universitatea Craiova",
+      "away": "Ararat-Armenia",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627595,
+      "league": "UEFA Europa League",
+      "home": "Lech Poznan",
+      "away": "FC Thun",
+      "time": "20:00",
+      "status": "NS"
+    },
+    {
+      "id": 1549134,
+      "league": "Division 1",
+      "home": "Al Jazira",
+      "away": "Al Sulaibikhat",
+      "time": "20:10",
+      "status": "NS"
+    },
+    {
+      "id": 1549135,
+      "league": "Division 1",
+      "home": "Al Sahel",
+      "away": "Yarmouk",
+      "time": "20:10",
+      "status": "NS"
+    },
+    {
+      "id": 1549136,
+      "league": "Division 1",
+      "home": "Shamiya",
+      "away": "Khaitan",
+      "time": "20:10",
+      "status": "NS"
+    },
+    {
+      "id": 1549137,
+      "league": "Division 1",
+      "home": "Sporty",
+      "away": "Burgan",
+      "time": "20:10",
+      "status": "NS"
+    },
+    {
+      "id": 1627538,
+      "league": "UEFA Europa Conference League",
+      "home": "KI Klaksvik",
+      "away": "Riga",
+      "time": "20:30",
+      "status": "NS"
+    },
+    {
+      "id": 1563644,
+      "league": "Cup",
+      "home": "Baltika",
+      "away": "Dinamo Makhachkala",
+      "time": "20:45",
+      "status": "NS"
+    },
+    {
+      "id": 1623402,
+      "league": "UEFA Europa Conference League",
+      "home": "PAOK",
+      "away": "Brann",
+      "time": "20:45",
+      "status": "NS"
+    },
+    {
+      "id": 1547467,
+      "league": "Paulista - U20",
+      "home": "São Paulo U20",
+      "away": "SC Paulinense SP U20",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1600747,
+      "league": "Ligi kuu Bara",
+      "home": "Azam",
+      "away": "Tabora United",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1602981,
+      "league": "Pro League",
+      "home": "Al-Fayha",
+      "away": "Al-Hilal Saudi FC",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1604798,
+      "league": "Friendlies Clubs",
+      "home": "Real Madrid II",
+      "away": "Zamora",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611959,
+      "league": "Reserve League",
+      "home": "Barracas Central Res.",
+      "away": "Tigre Res.",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611960,
+      "league": "Reserve League",
+      "home": "Defensa y Justicia Res.",
+      "away": "Belgrano Córdoba Res.",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611961,
+      "league": "Reserve League",
+      "home": "Estudiantes Rio Cuarto 2",
+      "away": "Deportivo Riestra Res.",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611962,
+      "league": "Reserve League",
+      "home": "Gimnasia Mendoza 2",
+      "away": "San Lorenzo Res.",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1622632,
+      "league": "UEFA Europa League",
+      "home": "FK Crvena Zvezda",
+      "away": "Plzen",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623389,
+      "league": "UEFA Europa Conference League",
+      "home": "Drita",
+      "away": "Inter Club d'Escaldes",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623392,
+      "league": "UEFA Europa Conference League",
+      "home": "Gornik Zabrze",
+      "away": "Monaco",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623407,
+      "league": "UEFA Europa Conference League",
+      "home": "Twente",
+      "away": "Qarabag",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623408,
+      "league": "UEFA Europa Conference League",
+      "home": "Vikingur Reykjavik",
+      "away": "Borac Banja Luka",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623437,
+      "league": "UEFA Europa League",
+      "home": "OFI",
+      "away": "CSKA Sofia",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623438,
+      "league": "UEFA Europa League",
+      "home": "St. Truiden",
+      "away": "Omonia Nicosia",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627043,
+      "league": "Iraqi League",
+      "home": "Al Minaa Basra",
+      "away": "Zakho",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1627053,
+      "league": "Iraqi League",
+      "home": "Al-Jolan SC",
+      "away": "Al Karkh",
+      "time": "21:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623405,
+      "league": "UEFA Europa Conference League",
+      "home": "FC Sion",
+      "away": "Ajax",
+      "time": "21:15",
+      "status": "NS"
+    },
+    {
+      "id": 1623111,
+      "league": "UEFA Europa Conference League",
+      "home": "Atalanta",
+      "away": "Hapoel Tel Aviv",
+      "time": "21:30",
+      "status": "NS"
+    },
+    {
+      "id": 1623390,
+      "league": "UEFA Europa Conference League",
+      "home": "Gent",
+      "away": "Hibernian",
+      "time": "21:30",
+      "status": "NS"
+    },
+    {
+      "id": 1623397,
+      "league": "UEFA Europa Conference League",
+      "home": "FC Lugano",
+      "away": "Maccabi Tel Aviv",
+      "time": "21:30",
+      "status": "NS"
+    },
+    {
+      "id": 1623399,
+      "league": "UEFA Europa Conference League",
+      "home": "Motherwell",
+      "away": "SC Freiburg",
+      "time": "21:30",
+      "status": "NS"
+    },
+    {
+      "id": 1623401,
+      "league": "UEFA Europa Conference League",
+      "home": "Panathinaikos",
+      "away": "Hradec Králové",
+      "time": "21:30",
+      "status": "NS"
+    },
+    {
+      "id": 1574696,
+      "league": "Ligue 3",
+      "home": "Bastia",
+      "away": "Versailles",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574697,
+      "league": "Ligue 3",
+      "home": "Bourg-en-bresse 01",
+      "away": "Thionville Lusitanos",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574698,
+      "league": "Ligue 3",
+      "home": "Caen",
+      "away": "Aubagne",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574699,
+      "league": "Ligue 3",
+      "home": "Concarneau",
+      "away": "Villefranche",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574700,
+      "league": "Ligue 3",
+      "home": "Fleury 91",
+      "away": "Orleans",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574701,
+      "league": "Ligue 3",
+      "home": "La Roche VF",
+      "away": "Cannes",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574702,
+      "league": "Ligue 3",
+      "home": "Le Puy Foot",
+      "away": "Amiens",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574703,
+      "league": "Ligue 3",
+      "home": "Gobelins",
+      "away": "Valenciennes",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1574704,
+      "league": "Ligue 3",
+      "home": "Rouen",
+      "away": "Quevilly",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1623394,
+      "league": "UEFA Europa Conference League",
+      "home": "Heart Of Midlothian",
+      "away": "Rapid Vienna",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1623403,
+      "league": "UEFA Europa Conference League",
+      "home": "Rangers",
+      "away": "FK Jablonec",
+      "time": "21:45",
+      "status": "NS"
+    },
+    {
+      "id": 1526601,
+      "league": "Liga Pro Serie B",
+      "home": "Atletico FC",
+      "away": "Cumbayá",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1543988,
+      "league": "Brasileiro U17",
+      "home": "Palmeiras U17",
+      "away": "Cruzeiro U17",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1564254,
+      "league": "League One",
+      "home": "Sheffield Wednesday",
+      "away": "Bradford",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1570351,
+      "league": "La Liga",
+      "home": "Rayo Vallecano",
+      "away": "Alaves",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1619658,
+      "league": "Copa de la División Profesional",
+      "home": "Always Ready",
+      "away": "Real Oruro",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623387,
+      "league": "UEFA Europa Conference League",
+      "home": "SC Braga",
+      "away": "Austria Vienna",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623388,
+      "league": "UEFA Europa Conference League",
+      "home": "Dinamo Tirana",
+      "away": "Pafos",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623391,
+      "league": "UEFA Europa Conference League",
+      "home": "Getafe",
+      "away": "FK Partizan",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623393,
+      "league": "UEFA Europa Conference League",
+      "home": "HNK Hajduk Split",
+      "away": "Raków Częstochowa",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623404,
+      "league": "UEFA Europa Conference League",
+      "home": "Shamrock Rovers",
+      "away": "KuPS",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1623431,
+      "league": "UEFA Europa League",
+      "home": "Benfica",
+      "away": "Aarhus",
+      "time": "22:00",
+      "status": "NS"
+    },
+    {
+      "id": 1612598,
+      "league": "Copa Paraguay",
+      "home": "Tacuary",
+      "away": "Libertad Asuncion",
+      "time": "22:30",
+      "status": "NS"
+    },
+    {
+      "id": 1525756,
+      "league": "Liga Femenina",
+      "home": "Atlético Bucaramanga W",
+      "away": "Once Caldas W",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1525758,
+      "league": "Liga Femenina",
+      "home": "Independiente Medellín W",
+      "away": "América de Cali W",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1525762,
+      "league": "Liga Femenina",
+      "home": "Orsomarso W",
+      "away": "Deportivo Pasto W",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1525763,
+      "league": "Liga Femenina",
+      "home": "Santa Fe W",
+      "away": "Fortaleza W",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1547791,
+      "league": "Copa Ecuador",
+      "home": "Cde Juventud Italiana",
+      "away": "Delfin SC",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1611964,
+      "league": "Reserve League",
+      "home": "Boca Juniors Res.",
+      "away": "Central Córdoba SdE Res.",
+      "time": "23:00",
+      "status": "NS"
+    },
+    {
+      "id": 1526602,
+      "league": "Liga Pro Serie B",
+      "home": "Deportivo Cuenca Juniors",
+      "away": "Gualaceo SC",
+      "time": "23:30",
+      "status": "NS"
+    },
+    {
+      "id": 1526603,
+      "league": "Liga Pro Serie B",
+      "home": "Ind. Juniors",
+      "away": "El Nacional",
+      "time": "23:30",
+      "status": "NS"
+    },
+    {
+      "id": 1549593,
+      "league": "Primera B",
+      "home": "Real Santander",
+      "away": "Barranquilla",
+      "time": "23:30",
+      "status": "NS"
+    }
+  ]
 }
