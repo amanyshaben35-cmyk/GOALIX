@@ -23,228 +23,48 @@ let matches = [
 ];
 
 const grid = document.getElementById("matches");
-
-async function loadMatches() {
-  try {
-    const response = await fetch("data/matches.json");
-
-    if (!response.ok) {
-      throw new Error("تعذر تحميل بيانات المباريات");
-    }
-
-    const data = await response.json();
-
-    matches = (data.matches || []).map((item, index) => {
-      const fixture = item.fixture || {};
-      const teams = item.teams || {};
-      const league = item.league || {};
-
-      return {
-        id: fixture.id || index + 1,
-        league: league.name || "بطولة رياضية",
-        home: teams.home?.name || "الفريق المضيف",
-        away: teams.away?.name || "الفريق الضيف",
-        time: fixture.date
-          ? new Date(fixture.date).toLocaleTimeString("ar-EG", {
-              hour: "2-digit",
-              minute: "2-digit"
-            })
-          : "--:--"
-      };
-    });
-
-    renderMatches();
-
-  } catch (error) {
-    console.error(error);
-
-    if (grid) {
-      grid.innerHTML = `
-        <div class="match-card">
-          <div class="league">GOALIX SPORTS</div>
-          <div class="team">
-            تعذر تحميل المباريات حاليًا.
-          </div>
-        </div>
-      `;
-    }
-  }
-}
+const analysis = document.getElementById("analysis");
 
 function renderMatches() {
-  if (!grid) return;
-
-  if (matches.length === 0) {
-    grid.innerHTML = `
-      <div class="match-card">
-        <div class="league">GOALIX SPORTS</div>
-        <div class="team">
-          لا توجد مباريات متاحة اليوم.
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  grid.innerHTML = matches.map(match => `
+  grid.innerHTML = matches.map(m => `
     <article class="match-card">
-
-      <div class="league">
-        ${match.league}
-      </div>
-
-      <div class="match-time">
-        ${match.time}
-      </div>
+      <div class="league">${m.league}</div>
+      <div class="match-time">${m.time}</div>
 
       <div class="teams">
-
-        <div class="team">
-          <strong>${match.home}</strong>
-        </div>
-
-        <div class="vs">
-          VS
-        </div>
-
-        <div class="team">
-          <strong>${match.away}</strong>
-        </div>
-
+        <div class="team">${m.home}</div>
+        <div class="vs">ضد</div>
+        <div class="team">${m.away}</div>
       </div>
 
       <div class="choices">
-
-        <button
-          class="choice"
-          onclick="predict(${match.id}, 'فوز ${match.home}')">
-          ${match.home}
+        <button class="choice" onclick="predict(${m.id}, '${m.home}')">
+          ${m.home}
         </button>
-
-        <button
-          class="choice"
-          onclick="predict(${match.id}, 'تعادل')">
+        <button class="choice" onclick="predict(${m.id}, 'تعادل')">
           تعادل
         </button>
-
-        <button
-          class="choice"
-          onclick="predict(${match.id}, 'فوز ${match.away}')">
-          ${match.away}
+        <button class="choice" onclick="predict(${m.id}, '${m.away}')">
+          ${m.away}
         </button>
-
       </div>
-
     </article>
   `).join("");
 }
 
-function predict(id, label) {
-  const match = matches.find(item => item.id === id);
-
-  if (!match) return;
-
-  const analysis = document.getElementById("analysis");
+function predict(id, choice) {
+  const match = matches.find(m => m.id === id);
 
   if (analysis) {
     analysis.textContent =
-      `تم تسجيل توقعك: ${label} — ${match.home} ضد ${match.away}`;
+      `تم تسجيل توقعك: ${choice} في مباراة ${match.home} ضد ${match.away}`;
   }
-
-  showToast("تم تسجيل توقعك بنجاح");
-}
-
-function showToast(message) {
-  let toast = document.getElementById("toast");
-
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "toast";
-    toast.className = "toast";
-    document.body.appendChild(toast);
-  }
-
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2500);
 }
 
 function scrollToMatches() {
-  const section = document.getElementById("matches-section");
-
-  if (section) {
-    section.scrollIntoView({
-      behavior: "smooth"
-    });
-  }
-}
-
-document.querySelectorAll("nav button").forEach(button => {
-  button.addEventListener("click", () => {
-
-    const tab = button.dataset.tab;
-
-    document.querySelectorAll("nav button").forEach(btn => {
-      btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.remove("active");
-    });
-
-    const target = document.getElementById(
-      tab === "matches" ? "matches-section" : tab
-    );
-
-    if (target) {
-      target.classList.add("active");
-    }
-  });
-});
-
-const themeButton = document.getElementById("theme");
-
-if (themeButton) {
-  themeButton.addEventListener("click", () => {
-
-    document.body.classList.toggle("light");
-
-    if (document.body.classList.contains("light")) {
-      themeButton.textContent = "☀️";
-      localStorage.setItem("goalix-theme", "light");
-    } else {
-      themeButton.textContent = "☾";
-      localStorage.setItem("goalix-theme", "dark");
-    }
-
+  document.getElementById("matches-section")?.scrollIntoView({
+    behavior: "smooth"
   });
 }
 
-if (localStorage.getItem("goalix-theme") === "light") {
-  document.body.classList.add("light");
-
-  if (themeButton) {
-    themeButton.textContent = "☀️";
-  }
-}
-
-const dateElement = document.getElementById("date");
-
-if (dateElement) {
-  const today = new Date();
-
-  dateElement.textContent = today.toLocaleDateString("ar-EG", {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadMatches();
-});
+renderMatches();
