@@ -1,4 +1,4 @@
-const matches = [
+data/matches.json
   {
     id: 1,
     league: "Premier League",
