@@ -2,6 +2,8 @@ name: Update GOALIX Matches
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
 
 permissions:
   contents: write
@@ -16,7 +18,8 @@ jobs:
 
       - name: Get Egypt date
         id: date
-        run: echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
       - name: Fetch matches
         env:
@@ -25,35 +28,69 @@ jobs:
         run: |
           mkdir -p data
 
-          curl -sS \
+          curl -fLsS \
             --url "https://v3.football.api-sports.io/fixtures?date=${TODAY}&timezone=Africa/Cairo" \
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
             -o data/all-matches.json
 
-      - name: Build data
+      - name: Build GOALIX data
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
 
-          data = json.loads(Path("data/all-matches.json").read_text())
-          matches = data.get("response", [])
+          source = json.loads(
+              Path("data/all-matches.json").read_text(encoding="utf-8")
+          )
 
-          print("MATCHES:", len(matches))
+          if "errors" in source and source["errors"]:
+              raise SystemExit(f"API error: {source['errors']}")
+
+          result = []
+
+          for item in source.get("response", []):
+              fixture = item.get("fixture", {})
+              teams = item.get("teams", {})
+              league = item.get("league", {})
+
+              home = teams.get("home", {}).get("name")
+              away = teams.get("away", {}).get("name")
+              date = fixture.get("date")
+
+              if not home or not away or not date:
+                  continue
+
+              dt = datetime.fromisoformat(date.replace("Z", "+00:00"))
+              egypt_time = dt.astimezone(ZoneInfo("Africa/Cairo"))
+
+              result.append({
+                  "id": fixture.get("id"),
+                  "league": league.get("name", "كرة القدم"),
+                  "home": home,
+                  "away": away,
+                  "time": egypt_time.strftime("%H:%M"),
+                  "status": fixture.get("status", {}).get("short", "")
+              })
+
+          output = {
+              "updated": datetime.now(ZoneInfo("Africa/Cairo")).isoformat(),
+              "matches": result
+          }
 
           Path("data/matches.json").write_text(
-              json.dumps(
-                  {"matches": matches},
-                  ensure_ascii=False,
-                  indent=2
-              )
+              json.dumps(output, ensure_ascii=False, indent=2),
+              encoding="utf-8"
           )
+
+          print(f"GOALIX MATCHES: {len(result)}")
           PY
 
-      - name: Save
+      - name: Save updated data
         run: |
           git config user.name "GOALIX Bot"
           git config user.email "actions@github.com"
-          git add data/
-          git commit -m "Update GOALIX matches" || true
+          git add data/matches.json data/all-matches.json
+          git commit -m "Update GOALIX matches" || echo "No changes"
           git push
