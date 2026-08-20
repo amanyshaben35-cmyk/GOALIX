@@ -1,36 +1,75 @@
-data/matches.json
-  {
-    id: 1,
-    league: "Premier League",
-    home: "Manchester City",
-    away: "Arsenal",
-    time: "20:00"
-  },
-  {
-    id: 2,
-league: "La Liga",
-    home: "Barcelona",
-    away: "Real Madrid",
-    time: "22:00"
-  },
-  {
-    id: 3,
-    league: "Serie A",
-    home: "Inter",
-    away: "AC Milan",
-    time: "21:45"
-  }
-];
+let matches = [];
 
 const grid = document.getElementById("matches");
+
+async function loadMatches() {
+  try {
+    const response = await fetch("data/matches.json");
+
+    if (!response.ok) {
+      throw new Error("تعذر تحميل بيانات المباريات");
+    }
+
+    const data = await response.json();
+
+    matches = (data.matches || []).map((item, index) => {
+      const fixture = item.fixture || {};
+      const teams = item.teams || {};
+      const league = item.league || {};
+
+      return {
+        id: fixture.id || index + 1,
+        league: league.name || "بطولة رياضية",
+        home: teams.home?.name || "الفريق المضيف",
+        away: teams.away?.name || "الفريق الضيف",
+        time: fixture.date
+          ? new Date(fixture.date).toLocaleTimeString("ar-EG", {
+              hour: "2-digit",
+              minute: "2-digit"
+            })
+          : "--:--"
+      };
+    });
+
+    renderMatches();
+
+  } catch (error) {
+    console.error(error);
+
+    if (grid) {
+      grid.innerHTML = `
+        <div class="match-card">
+          <div class="league">GOALIX SPORTS</div>
+          <div class="team">
+            تعذر تحميل المباريات حاليًا.
+          </div>
+        </div>
+      `;
+    }
+  }
+}
 
 function renderMatches() {
   if (!grid) return;
 
+  if (matches.length === 0) {
+    grid.innerHTML = `
+      <div class="match-card">
+        <div class="league">GOALIX SPORTS</div>
+        <div class="team">
+          لا توجد مباريات متاحة اليوم.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   grid.innerHTML = matches.map(match => `
     <article class="match-card">
 
-      <div class="league">${match.league}</div>
+      <div class="league">
+        ${match.league}
+      </div>
 
       <div class="match-time">
         ${match.time}
@@ -121,10 +160,7 @@ function scrollToMatches() {
   }
 }
 
-/* التنقل بين الأقسام */
-
 document.querySelectorAll("nav button").forEach(button => {
-
   button.addEventListener("click", () => {
 
     const tab = button.dataset.tab;
@@ -140,25 +176,18 @@ document.querySelectorAll("nav button").forEach(button => {
     });
 
     const target = document.getElementById(
-      tab === "matches"
-        ? "matches-section"
-        : tab
+      tab === "matches" ? "matches-section" : tab
     );
 
     if (target) {
       target.classList.add("active");
     }
-
   });
-
 });
-
-/* الوضع الليلي / الفاتح */
 
 const themeButton = document.getElementById("theme");
 
 if (themeButton) {
-
   themeButton.addEventListener("click", () => {
 
     document.body.classList.toggle("light");
@@ -172,10 +201,7 @@ if (themeButton) {
     }
 
   });
-
 }
-
-/* استعادة المظهر */
 
 if (localStorage.getItem("goalix-theme") === "light") {
   document.body.classList.add("light");
@@ -185,25 +211,18 @@ if (localStorage.getItem("goalix-theme") === "light") {
   }
 }
 
-/* التاريخ */
-
 const dateElement = document.getElementById("date");
 
 if (dateElement) {
-
   const today = new Date();
 
-  dateElement.textContent =
-    today.toLocaleDateString("ar-EG", {
-      weekday: "long",
-      day: "numeric",
-      month: "long"
-    });
-
+  dateElement.textContent = today.toLocaleDateString("ar-EG", {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  });
 }
 
-/* تشغيل المباريات */
-
 document.addEventListener("DOMContentLoaded", () => {
-  renderMatches();
+  loadMatches();
 });
