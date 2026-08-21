@@ -42,7 +42,6 @@
 <body>
 
   <header>
-
     <div class="logo">
       GOAL<span>IX</span>
     </div>
@@ -54,16 +53,13 @@
     >
       ☾
     </button>
-
   </header>
 
   <main>
 
     <section class="hero">
 
-      <small>
-        GOALIX SPORTS
-      </small>
+      <small>GOALIX SPORTS</small>
 
       <h1>
         كل الكرة في مكان واحد.
@@ -108,6 +104,14 @@
         الفرق
       </button>
 
+      <a
+        href="/GOALIX/about.html"
+        class="contact-link"
+        aria-label="تواصل معنا عبر واتساب"
+      >
+        تواصل معنا
+      </a>
+
     </nav>
 
     <section
@@ -117,9 +121,7 @@
 
       <div class="head">
 
-        <h2>
-          مباريات اليوم
-        </h2>
+        <h2>مباريات اليوم</h2>
 
         <span id="date"></span>
 
@@ -155,9 +157,7 @@
 
       <section class="goalix-analysis">
 
-        <h2>
-          تحليل GOALIX
-        </h2>
+        <h2>تحليل GOALIX</h2>
 
         <div id="analysis">
 
@@ -186,38 +186,28 @@
       class="page"
     >
 
-      <h2>
-        أهم الدوريات
-      </h2>
+      <h2>أهم الدوريات</h2>
 
       <div class="grid">
 
         <div>
           🏆 الدوري الإنجليزي
-          <small>
-            Premier League
-          </small>
+          <small>Premier League</small>
         </div>
 
         <div>
           🇪🇸 الدوري الإسباني
-          <small>
-            La Liga
-          </small>
+          <small>La Liga</small>
         </div>
 
         <div>
           🇮🇹 الدوري الإيطالي
-          <small>
-            Serie A
-          </small>
+          <small>Serie A</small>
         </div>
 
         <div>
           🇪🇺 دوري الأبطال
-          <small>
-            Champions League
-          </small>
+          <small>Champions League</small>
         </div>
 
       </div>
@@ -229,38 +219,28 @@
       class="page"
     >
 
-      <h2>
-        فرق مميزة
-      </h2>
+      <h2>فرق مميزة</h2>
 
       <div class="grid">
 
         <div>
           🔴 الأهلي
-          <small>
-            Al Ahly
-          </small>
+          <small>Al Ahly</small>
         </div>
 
         <div>
           ⚪ الزمالك
-          <small>
-            Zamalek
-          </small>
+          <small>Zamalek</small>
         </div>
 
         <div>
           🔵 برشلونة
-          <small>
-            Barcelona
-          </small>
+          <small>Barcelona</small>
         </div>
 
         <div>
           ⚪ ريال مدريد
-          <small>
-            Real Madrid
-          </small>
+          <small>Real Madrid</small>
         </div>
 
       </div>
@@ -284,24 +264,18 @@
   <script>
     if ("serviceWorker" in navigator) {
 
-      window.addEventListener(
-        "load",
-        () => {
+      window.addEventListener("load", () => {
 
-          navigator.serviceWorker
-            .register(
-              "/GOALIX/pwabuilder-sw.js"
-            )
-            .catch(
-              error =>
-                console.log(
-                  "GOALIX Service Worker:",
-                  error
-                )
+        navigator.serviceWorker
+          .register("/GOALIX/pwabuilder-sw.js")
+          .catch(error => {
+            console.log(
+              "GOALIX Service Worker:",
+              error
             );
+          });
 
-        }
-      );
+      });
 
     }
   </script>
