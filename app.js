@@ -59,23 +59,28 @@ function formatDate(dateString) {
 function getStatus(status) {
   const short = status?.short || "";
 
-  if (short === "FT" || short === "AET" || short === "PEN") {
+  if (
+    short === "FT" ||
+    short === "AET" ||
+    short === "PEN"
+  ) {
     return "انتهت";
   }
 
-  if (short === "LIVE" || short === "1H" || short === "2H" ||
-      short === "HT" || short === "ET" || short === "BT" ||
-      short === "P") {
+  if (
+    short === "LIVE" ||
+    short === "1H" ||
+    short === "2H" ||
+    short === "HT" ||
+    short === "ET" ||
+    short === "BT" ||
+    short === "P"
+  ) {
     return "مباشرة";
   }
 
-  if (short === "PST") {
-    return "مؤجلة";
-  }
-
-  if (short === "CANC") {
-    return "ملغاة";
-  }
+  if (short === "PST") return "مؤجلة";
+  if (short === "CANC") return "ملغاة";
 
   return "لم تبدأ";
 }
@@ -90,17 +95,43 @@ function normalizeMatches(data) {
     .map(item => ({
       id: item.fixture.id,
       date: item.fixture.date,
-      league: item.league?.name || "بطولة غير معروفة",
-      country: item.league?.country || "",
-      home: item.teams?.home?.name || "الفريق المضيف",
-      away: item.teams?.away?.name || "الفريق الضيف",
-      homeLogo: item.teams?.home?.logo || "",
-      awayLogo: item.teams?.away?.logo || "",
+
+      league:
+        item.league?.name ||
+        "بطولة غير معروفة",
+
+      country:
+        item.league?.country || "",
+
+      home:
+        item.teams?.home?.name ||
+        "الفريق المضيف",
+
+      away:
+        item.teams?.away?.name ||
+        "الفريق الضيف",
+
+      homeLogo:
+        item.teams?.home?.logo || "",
+
+      awayLogo:
+        item.teams?.away?.logo || "",
+
       time: formatTime(item.fixture.date),
+
       status: getStatus(item.fixture.status),
-      statusShort: item.fixture.status?.short || "",
+
+      statusShort:
+        item.fixture.status?.short || "",
+
       homeGoals: item.goals?.home,
-      awayGoals: item.goals?.away
+      awayGoals: item.goals?.away,
+
+      homeWinner:
+        item.teams?.home?.winner,
+
+      awayWinner:
+        item.teams?.away?.winner
     }));
 }
 
@@ -122,7 +153,9 @@ async function loadMatches() {
     );
 
     if (!response.ok) {
-      throw new Error("تعذر تحميل ملف المباريات");
+      throw new Error(
+        "تعذر تحميل ملف المباريات"
+      );
     }
 
     const data = await response.json();
@@ -130,11 +163,14 @@ async function loadMatches() {
     matches = normalizeMatches(data);
 
     if (!matches.length) {
-      throw new Error("لم يتم العثور على مباريات");
+      throw new Error(
+        "لم يتم العثور على مباريات"
+      );
     }
 
     if (date && matches[0]?.date) {
-      date.textContent = formatDate(matches[0].date);
+      date.textContent =
+        formatDate(matches[0].date);
     }
 
     renderLeagues();
@@ -142,13 +178,16 @@ async function loadMatches() {
     updateCount();
 
   } catch (error) {
-    console.error("GOALIX:", error);
+    console.error(
+      "GOALIX:",
+      error
+    );
 
     if (grid) {
       grid.innerHTML = `
         <div class="no-matches">
           تعذر تحميل المباريات حاليًا.<br>
-          تأكد من اتصال الإنترنت ثم أعد تحميل الصفحة.
+          تأكد من اتصال الإنترنت ثم أعد المحاولة.
         </div>
       `;
     }
@@ -167,36 +206,102 @@ function renderLeagues() {
     )
   ];
 
-  leagueFilter.innerHTML = leagues
-    .map(
-      league =>
-        `<option value="${escapeHTML(league)}">${escapeHTML(league)}</option>`
-    )
-    .join("");
+  leagueFilter.innerHTML =
+    leagues
+      .map(
+        league => `
+          <option value="${escapeHTML(league)}">
+            ${escapeHTML(league)}
+          </option>
+        `
+      )
+      .join("");
+}
+
+function getScoreHTML(match) {
+  const hasScore =
+    match.homeGoals !== null &&
+    match.homeGoals !== undefined &&
+    match.awayGoals !== null &&
+    match.awayGoals !== undefined;
+
+  if (!hasScore) {
+    return `
+      <div class="match-score">
+        VS
+      </div>
+    `;
+  }
+
+  return `
+    <div class="match-score">
+      ${escapeHTML(match.homeGoals)}
+      -
+      ${escapeHTML(match.awayGoals)}
+    </div>
+  `;
+}
+
+function renderTeam(team, logo) {
+  return `
+    <div class="team">
+      ${
+        logo
+          ? `
+            <img
+              src="${escapeHTML(logo)}"
+              alt=""
+              loading="lazy"
+              width="48"
+              height="48"
+            >
+          `
+          : `
+            <div class="team-logo-placeholder">
+              ⚽
+            </div>
+          `
+      }
+
+      <span>
+        ${escapeHTML(team)}
+      </span>
+    </div>
+  `;
 }
 
 function renderMatches() {
   if (!grid) return;
 
   const query =
-    search?.value.trim().toLowerCase() || "";
+    search?.value
+      .trim()
+      .toLowerCase() || "";
 
   const league =
     leagueFilter?.value || "الكل";
 
-  const filtered = matches.filter(m => {
-    const searchOK =
-      !query ||
-      m.home.toLowerCase().includes(query) ||
-      m.away.toLowerCase().includes(query) ||
-      m.league.toLowerCase().includes(query);
+  const filtered =
+    matches.filter(match => {
 
-    const leagueOK =
-      league === "الكل" ||
-      m.league === league;
+      const searchOK =
+        !query ||
+        match.home
+          .toLowerCase()
+          .includes(query) ||
+        match.away
+          .toLowerCase()
+          .includes(query) ||
+        match.league
+          .toLowerCase()
+          .includes(query);
 
-    return searchOK && leagueOK;
-  });
+      const leagueOK =
+        league === "الكل" ||
+        match.league === league;
+
+      return searchOK && leagueOK;
+    });
 
   if (!filtered.length) {
     grid.innerHTML = `
@@ -204,140 +309,153 @@ function renderMatches() {
         لا توجد مباريات مطابقة للبحث.
       </div>
     `;
+
     return;
   }
 
   const saved = predictions();
 
-  grid.innerHTML = filtered
-    .map(m => {
-      const prediction = saved[m.id];
+  grid.innerHTML =
+    filtered
+      .map(match => {
 
-      return `
-        <article class="match-card">
+        const prediction =
+          saved[match.id];
 
-          <div class="match-header">
-            <span class="league">
-              ${escapeHTML(m.league)}
-            </span>
+        return `
+          <article
+            class="match-card goalix-match"
+          >
 
-            <span class="match-status">
-              ${escapeHTML(m.status)}
-            </span>
-          </div>
+            <div class="match-header">
 
-          <div class="match-time">
-            ${escapeHTML(m.time)}
-          </div>
+              <span class="league">
+                ${escapeHTML(match.league)}
+              </span>
 
-          <div class="teams">
+              <span class="match-status">
+                ${escapeHTML(match.status)}
+              </span>
 
-            <div class="team">
+            </div>
+
+            <div class="match-time">
+              ${escapeHTML(match.time)}
+            </div>
+
+            <div class="teams">
+
+              ${renderTeam(
+                match.home,
+                match.homeLogo
+              )}
+
+              <div class="vs">
+                <span>ضد</span>
+                ${getScoreHTML(match)}
+              </div>
+
+              ${renderTeam(
+                match.away,
+                match.awayLogo
+              )}
+
+            </div>
+
+            <div class="choices">
+
+              <button
+                class="choice"
+                onclick="predict(
+                  ${Number(match.id)},
+                  'home'
+                )"
+              >
+                فوز
+                ${escapeHTML(match.home)}
+              </button>
+
+              <button
+                class="choice"
+                onclick="predict(
+                  ${Number(match.id)},
+                  'draw'
+                )"
+              >
+                تعادل
+              </button>
+
+              <button
+                class="choice"
+                onclick="predict(
+                  ${Number(match.id)},
+                  'away'
+                )"
+              >
+                فوز
+                ${escapeHTML(match.away)}
+              </button>
+
+            </div>
+
+            <div class="prediction-status">
+
               ${
-                m.homeLogo
-                  ? `<img src="${escapeHTML(m.homeLogo)}"
-                       alt=""
-                       loading="lazy"
-                       width="40"
-                       height="40">`
-                  : ""
+                prediction
+                  ? `
+                    توقعك:
+                    <strong>
+                      ${escapeHTML(
+                        prediction.label
+                      )}
+                    </strong>
+                  `
+                  : `
+                    لم يتم اختيار توقع
+                  `
               }
 
-              <span>${escapeHTML(m.home)}</span>
             </div>
 
-            <div class="vs">
-              ضد
-            </div>
-
-            <div class="team">
-              ${
-                m.awayLogo
-                  ? `<img src="${escapeHTML(m.awayLogo)}"
-                       alt=""
-                       loading="lazy"
-                       width="40"
-                       height="40">`
-                  : ""
-              }
-
-              <span>${escapeHTML(m.away)}</span>
-            </div>
-
-          </div>
-
-          ${
-            m.homeGoals !== null &&
-            m.homeGoals !== undefined &&
-            m.awayGoals !== null &&
-            m.awayGoals !== undefined
-              ? `
-                <div class="match-score">
-                  ${escapeHTML(m.homeGoals)}
-                  -
-                  ${escapeHTML(m.awayGoals)}
-                </div>
-              `
-              : ""
-          }
-
-          <div class="choices">
-
             <button
-              class="choice"
-              onclick="predict(${Number(m.id)}, 'home')">
-              فوز ${escapeHTML(m.home)}
+              class="analysis-button"
+              onclick="showAnalysis(
+                ${Number(match.id)}
+              )"
+            >
+              تحليل المباراة
             </button>
 
-            <button
-              class="choice"
-              onclick="predict(${Number(m.id)}, 'draw')">
-              تعادل
-            </button>
-
-            <button
-              class="choice"
-              onclick="predict(${Number(m.id)}, 'away')">
-              فوز ${escapeHTML(m.away)}
-            </button>
-
-          </div>
-
-          <div class="prediction-status">
-            ${
-              prediction
-                ? `توقعك: ${escapeHTML(prediction.label)}`
-                : "لم يتم اختيار توقع"
-            }
-          </div>
-
-          <button
-            class="analysis-button"
-            onclick="showAnalysis(${Number(m.id)})">
-            تحليل المباراة
-          </button>
-
-        </article>
-      `;
-    })
-    .join("");
+          </article>
+        `;
+      })
+      .join("");
 }
 
 function predict(id, choice) {
-  const match = matches.find(m => m.id === id);
+  const match =
+    matches.find(
+      item => item.id === id
+    );
 
   if (!match) return;
 
   const labels = {
-    home: `فوز ${match.home}`,
-    draw: "تعادل",
-    away: `فوز ${match.away}`
+    home:
+      `فوز ${match.home}`,
+
+    draw:
+      "تعادل",
+
+    away:
+      `فوز ${match.away}`
   };
 
-  const saved = predictions();
+  const saved =
+    predictions();
 
   saved[id] = {
-    choice,
+    choice: choice,
     label: labels[choice]
   };
 
@@ -357,22 +475,68 @@ function predict(id, choice) {
           تم تسجيل توقعك ✅
         </div>
 
-        <strong>
-          ${escapeHTML(labels[choice])}
-        </strong>
+        <h3>
+          ${escapeHTML(
+            match.home
+          )}
+          ضد
+          ${escapeHTML(
+            match.away
+          )}
+        </h3>
+
+        <p>
+          اختيارك:
+          <strong>
+            ${escapeHTML(
+              labels[choice]
+            )}
+          </strong>
+        </p>
 
       </div>
     `;
   }
 }
 
+function calculateSimpleAnalysis(match) {
+  let recommendation =
+    "تحليل مبدئي";
+
+  if (
+    match.homeWinner === true
+  ) {
+    recommendation =
+      `أفضلية ${match.home}`;
+  } else if (
+    match.awayWinner === true
+  ) {
+    recommendation =
+      `أفضلية ${match.away}`;
+  } else {
+    recommendation =
+      "المباراة متوازنة";
+  }
+
+  return recommendation;
+}
+
 function showAnalysis(id) {
-  const match = matches.find(m => m.id === id);
+  const match =
+    matches.find(
+      item => item.id === id
+    );
 
   if (!match || !analysis) return;
 
-  const saved = predictions();
-  const prediction = saved[id];
+  const saved =
+    predictions();
+
+  const prediction =
+    saved[id];
+
+  const recommendation =
+    calculateSimpleAnalysis(match);
 
   analysis.innerHTML = `
     <div class="analysis-box">
@@ -388,18 +552,43 @@ function showAnalysis(id) {
       </h3>
 
       <div class="analysis-row">
-        <span>موعد المباراة</span>
-        <strong>${escapeHTML(match.time)}</strong>
+        <span>البطولة</span>
+        <strong>
+          ${escapeHTML(match.league)}
+        </strong>
       </div>
 
       <div class="analysis-row">
-        <span>البطولة</span>
-        <strong>${escapeHTML(match.league)}</strong>
+        <span>الموعد</span>
+        <strong>
+          ${escapeHTML(match.time)}
+        </strong>
       </div>
 
       <div class="analysis-row">
         <span>الحالة</span>
-        <strong>${escapeHTML(match.status)}</strong>
+        <strong>
+          ${escapeHTML(match.status)}
+        </strong>
+      </div>
+
+      <div class="analysis-row">
+        <span>النتيجة</span>
+        <strong>
+          ${
+            match.homeGoals !== null &&
+            match.homeGoals !== undefined
+              ? `${match.homeGoals} - ${match.awayGoals}`
+              : "لم تبدأ"
+          }
+        </strong>
+      </div>
+
+      <div class="analysis-row">
+        <span>قراءة GOALIX</span>
+        <strong>
+          ${escapeHTML(recommendation)}
+        </strong>
       </div>
 
       ${
@@ -407,14 +596,22 @@ function showAnalysis(id) {
           ? `
             <div class="analysis-row">
               <span>توقعك</span>
-              <strong>${escapeHTML(prediction.label)}</strong>
+              <strong>
+                ${escapeHTML(
+                  prediction.label
+                )}
+              </strong>
             </div>
           `
-          : ""
+          : `
+            <p class="analysis-note">
+              اختر توقعًا للمباراة لإضافته إلى سجل توقعاتك.
+            </p>
+          `
       }
 
       <p class="analysis-note">
-        تحليل GOALIX الحالي يعتمد على بيانات المباراة المتاحة.
+        تنبيه: هذا تحليل إحصائي مبدئي وليس ضمانًا لنتيجة المباراة.
       </p>
 
     </div>
@@ -430,12 +627,16 @@ function updateCount() {
   if (!predictionCount) return;
 
   predictionCount.textContent =
-    Object.keys(predictions()).length;
+    Object.keys(
+      predictions()
+    ).length;
 }
 
 function scrollToMatches() {
   document
-    .getElementById("matches-section")
+    .getElementById(
+      "matches-section"
+    )
     ?.scrollIntoView({
       behavior: "smooth"
     });
@@ -446,60 +647,94 @@ function setupTabs() {
     .querySelectorAll("nav button")
     .forEach(button => {
 
-      button.addEventListener("click", () => {
+      button.addEventListener(
+        "click",
+        () => {
 
-        const target =
-          document.getElementById(button.dataset.tab);
+          const target =
+            document.getElementById(
+              button.dataset.tab
+            );
 
-        if (!target) return;
+          if (!target) return;
 
-        document
-          .querySelectorAll("nav button")
-          .forEach(b =>
-            b.classList.remove("active")
+          document
+            .querySelectorAll(
+              "nav button"
+            )
+            .forEach(btn =>
+              btn.classList.remove(
+                "active"
+              )
+            );
+
+          document
+            .querySelectorAll(
+              ".page"
+            )
+            .forEach(page =>
+              page.classList.remove(
+                "active"
+              )
+            );
+
+          button.classList.add(
+            "active"
           );
 
-        document
-          .querySelectorAll(".page")
-          .forEach(p =>
-            p.classList.remove("active")
+          target.classList.add(
+            "active"
           );
-
-        button.classList.add("active");
-        target.classList.add("active");
-      });
+        }
+      );
 
     });
 }
 
 function setupTheme() {
   const theme =
-    document.getElementById("theme");
+    document.getElementById(
+      "theme"
+    );
 
   if (!theme) return;
 
   if (
-    localStorage.getItem("goalix_theme") === "light"
+    localStorage.getItem(
+      "goalix_theme"
+    ) === "light"
   ) {
-    document.body.classList.add("light");
+    document.body.classList.add(
+      "light"
+    );
+
     theme.textContent = "☀";
   }
 
-  theme.addEventListener("click", () => {
+  theme.addEventListener(
+    "click",
+    () => {
 
-    document.body.classList.toggle("light");
+      document.body.classList.toggle(
+        "light"
+      );
 
-    const light =
-      document.body.classList.contains("light");
+      const light =
+        document.body.classList.contains(
+          "light"
+        );
 
-    theme.textContent =
-      light ? "☀" : "☾";
+      theme.textContent =
+        light ? "☀" : "☾";
 
-    localStorage.setItem(
-      "goalix_theme",
-      light ? "light" : "dark"
-    );
-  });
+      localStorage.setItem(
+        "goalix_theme",
+        light
+          ? "light"
+          : "dark"
+      );
+    }
+  );
 }
 
 if (search) {
