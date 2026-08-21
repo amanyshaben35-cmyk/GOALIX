@@ -1,88 +1,515 @@
-<!-- الاشتراك والدفع -->
+<!doctype html>
+<html lang="ar" dir="rtl" translate="no">
 
-<section
-  id="premium"
-  class="goalix-analysis"
->
+<head>
+  <meta charset="utf-8">
+  <meta name="google" content="notranslate">
 
-  <div class="analysis-box">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <div class="analysis-title">
-      GOALIX Premium ⭐
-    </div>
+  <meta name="theme-color" content="#0b1020">
 
-    <h2>
-      اشترك في GOALIX Premium
-    </h2>
+  <meta
+    name="description"
+    content="GOALIX Sports - مباريات ونتائج وإحصائيات وتحليلات رياضية"
+  >
 
-    <p>
-      احصل على تجربة GOALIX Premium
-      واستفد من المزايا الإضافية.
-    </p>
+  <meta name="robots" content="index,follow">
 
-    <div class="premium-price">
-      <strong>49 جنيه</strong>
-      <span>/ شهر</span>
-    </div>
+  <link rel="manifest" href="/GOALIX/manifest.json">
 
-    <div class="premium-features">
-      <div>⚽ تحليلات GOALIX</div>
-      <div>📊 مزايا Premium الإضافية</div>
-      <div>🚀 تجربة أفضل داخل الموقع</div>
+  <link rel="stylesheet" href="style.css">
+
+  <title>GOALIX Sports</title>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      GOAL<span>IX</span>
     </div>
 
     <button
+      id="theme"
       type="button"
-      class="hero-button"
-      onclick="document.getElementById('payment-options').scrollIntoView({behavior:'smooth'})"
-      style="
-        width:100%;
-        border:0;
-        cursor:pointer;
-        margin-top:15px;
-      "
+      aria-label="تغيير المظهر"
     >
-      ⭐ اشترك الآن — 49 جنيه
+      ☾
     </button>
 
-    <div
-      id="payment-options"
-      style="margin-top:25px;"
-    >
+  </header>
 
-      <div class="analysis-row">
-        <span>الدفع عبر InstaPay</span>
-        <strong>01121405008</strong>
-      </div>
+  <main>
 
-      <div class="analysis-row">
-        <span>الدفع عبر Vodafone Cash</span>
-        <strong>01121405008</strong>
-      </div>
+    <!-- الصفحة الرئيسية -->
 
-      <p class="analysis-note">
-        بعد التحويل، اضغط على زر واتساب
-        وأرسل صورة إثبات الدفع لتفعيل
-        GOALIX Premium.
+    <section class="hero">
+
+      <small>GOALIX SPORTS</small>
+
+      <h1>
+        كل الكرة في مكان واحد.
+      </h1>
+
+      <p>
+        نتائج ومباريات وإحصائيات وتحليلات رياضية
+        في تجربة سريعة وأنيقة.
       </p>
 
-      <a
-        href="https://wa.me/201010970035?text=مرحباً%20GOALIX%20أريد%20الاشتراك%20في%20GOALIX%20Premium%20بسعر%2049%20جنيه"
-        target="_blank"
-        rel="noopener"
+      <button
         class="hero-button"
-        style="
-          display:block;
-          text-align:center;
-          text-decoration:none;
-          margin-top:15px;
-        "
+        type="button"
+        onclick="scrollToMatches()"
       >
-        💬 تأكيد الاشتراك عبر واتساب
+        مباريات اليوم
+      </button>
+
+    </section>
+
+
+    <!-- التنقل -->
+
+    <nav aria-label="التنقل الرئيسي">
+
+      <button
+        class="active"
+        type="button"
+        data-tab="matches-section"
+      >
+        المباريات
+      </button>
+
+      <button
+        type="button"
+        data-tab="leagues"
+      >
+        الدوريات
+      </button>
+
+      <button
+        type="button"
+        data-tab="teams"
+      >
+        الفرق
+      </button>
+
+      <a
+        href="#premium"
+        class="contact-link"
+      >
+        تواصل معنا
       </a>
 
-    </div>
+    </nav>
 
-  </div>
 
-</section>
+    <!-- المباريات -->
+
+    <section
+      id="matches-section"
+      class="page active"
+    >
+
+      <div class="head">
+
+        <h2>
+          مباريات اليوم
+        </h2>
+
+        <span id="date"></span>
+
+      </div>
+
+
+      <div class="goalix-controls">
+
+        <input
+          id="search"
+          type="search"
+          placeholder="ابحث عن فريق أو دوري..."
+          autocomplete="off"
+        >
+
+        <select
+          id="league-filter"
+          aria-label="اختيار الدوري"
+        >
+
+          <option value="الكل">
+            كل الدوريات
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div id="matches">
+
+        <div class="no-matches">
+          جاري تحميل المباريات... ⚽
+        </div>
+
+      </div>
+
+
+      <!-- التحليل -->
+
+      <section class="goalix-analysis">
+
+        <h2>
+          تحليل GOALIX
+        </h2>
+
+        <div id="analysis">
+
+          <p>
+            اختر مباراة لعرض التحليل.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- عدد التوقعات -->
+
+      <div class="goalix-stats">
+
+        توقعاتك:
+
+        <strong id="prediction-count">
+          0
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <!-- الدوريات -->
+
+    <section
+      id="leagues"
+      class="page"
+    >
+
+      <h2>
+        أهم الدوريات
+      </h2>
+
+      <div class="grid">
+
+        <div>
+          🏆 الدوري الإنجليزي
+          <small>
+            Premier League
+          </small>
+        </div>
+
+        <div>
+          🇪🇸 الدوري الإسباني
+          <small>
+            La Liga
+          </small>
+        </div>
+
+        <div>
+          🇮🇹 الدوري الإيطالي
+          <small>
+            Serie A
+          </small>
+        </div>
+
+        <div>
+          🇪🇺 دوري الأبطال
+          <small>
+            Champions League
+          </small>
+        </div>
+
+        <div>
+          🇪🇬 الدوري المصري الممتاز
+          <small>
+            Egyptian Premier League
+          </small>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- الفرق -->
+
+    <section
+      id="teams"
+      class="page"
+    >
+
+      <h2>
+        فرق مميزة
+      </h2>
+
+      <div class="grid">
+
+        <div>
+          🔴 الأهلي
+          <small>
+            Al Ahly
+          </small>
+        </div>
+
+        <div>
+          ⚪ الزمالك
+          <small>
+            Zamalek
+          </small>
+        </div>
+
+        <div>
+          🔵 برشلونة
+          <small>
+            Barcelona
+          </small>
+        </div>
+
+        <div>
+          ⚪ ريال مدريد
+          <small>
+            Real Madrid
+          </small>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- الاشتراك والدفع -->
+
+    <section
+      id="premium"
+      class="goalix-analysis"
+    >
+
+      <div class="analysis-box">
+
+        <div class="analysis-title">
+          ⭐ GOALIX Premium
+        </div>
+
+        <h2>
+          اشترك في GOALIX Premium
+        </h2>
+
+        <p>
+          احصل على تجربة GOALIX Premium
+          واستفد من المزايا الإضافية.
+        </p>
+
+
+        <div style="
+          text-align:center;
+          margin:20px 0;
+          padding:18px;
+          border-radius:16px;
+          background:rgba(0,200,83,.12);
+        ">
+
+          <strong style="
+            display:block;
+            font-size:32px;
+            font-weight:900;
+          ">
+            49 جنيه
+          </strong>
+
+          <span>
+            اشتراك شهري
+          </span>
+
+        </div>
+
+
+        <div style="
+          margin:20px 0;
+          line-height:2;
+        ">
+
+          <div>⚽ تحليلات GOALIX</div>
+
+          <div>📊 مزايا Premium الإضافية</div>
+
+          <div>🚀 تجربة أفضل داخل الموقع</div>
+
+        </div>
+
+
+        <!-- زر الاشتراك -->
+
+        <button
+          type="button"
+          onclick="
+            document
+              .getElementById('payment-options')
+              .scrollIntoView({
+                behavior:'smooth',
+                block:'center'
+              });
+          "
+          style="
+            display:block;
+            width:100%;
+            padding:18px;
+            margin:20px 0;
+            border:none;
+            border-radius:15px;
+            background:#00c853;
+            color:white;
+            font-size:20px;
+            font-weight:900;
+            cursor:pointer;
+            text-align:center;
+            box-sizing:border-box;
+          "
+        >
+          ⭐ اشترك الآن — 49 جنيه
+        </button>
+
+
+        <!-- طرق الدفع -->
+
+        <div
+          id="payment-options"
+          style="margin-top:25px;"
+        >
+
+          <h3 style="text-align:center;">
+            طرق الدفع
+          </h3>
+
+
+          <div class="analysis-row">
+
+            <span>
+              💳 الدفع عبر InstaPay
+            </span>
+
+            <strong>
+              01121405008
+            </strong>
+
+          </div>
+
+
+          <div class="analysis-row">
+
+            <span>
+              📱 الدفع عبر Vodafone Cash
+            </span>
+
+            <strong>
+              01121405008
+            </strong>
+
+          </div>
+
+
+          <p class="analysis-note">
+            بعد تحويل 49 جنيه، اضغط على زر واتساب
+            وأرسل صورة إثبات الدفع لتفعيل
+            GOALIX Premium.
+          </p>
+
+
+          <!-- واتساب -->
+
+          <a
+            href="https://wa.me/201010970035?text=مرحباً%20GOALIX%20أريد%20الاشتراك%20في%20GOALIX%20Premium%20بسعر%2049%20جنيه"
+            target="_blank"
+            rel="noopener"
+            style="
+              display:block;
+              width:100%;
+              box-sizing:border-box;
+              padding:17px;
+              margin-top:15px;
+              border-radius:15px;
+              background:#25D366;
+              color:white;
+              font-size:18px;
+              font-weight:900;
+              text-align:center;
+              text-decoration:none;
+            "
+          >
+            💬 تأكيد الاشتراك عبر واتساب
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- التذييل -->
+
+  <footer>
+
+    © 2026 GOALIX Sports
+
+    <span>
+      نتائج • مباريات • إحصائيات • تحليلات
+    </span>
+
+    <span>
+      الدفع عبر InstaPay و Vodafone Cash
+    </span>
+
+  </footer>
+
+
+  <!-- JavaScript -->
+
+  <script src="app.js"></script>
+
+
+  <!-- Service Worker -->
+
+  <script>
+
+    if ("serviceWorker" in navigator) {
+
+      window.addEventListener(
+        "load",
+        () => {
+
+          navigator.serviceWorker
+            .register(
+              "/GOALIX/pwabuilder-sw.js"
+            )
+            .catch(
+              error => {
+                console.log(
+                  "GOALIX Service Worker:",
+                  error
+                );
+              }
+            );
+
+        }
+      );
+
+    }
+
+  </script>
+
+</body>
+
+</html>
