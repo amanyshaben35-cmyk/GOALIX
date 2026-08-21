@@ -1,3 +1,5 @@
+"use strict";
+
 let matches = [];
 
 const grid = document.getElementById("matches");
@@ -7,12 +9,13 @@ const leagueFilter = document.getElementById("league-filter");
 const date = document.getElementById("date");
 const predictionCount = document.getElementById("prediction-count");
 
-function predictions() {
+function getPredictions() {
   try {
     return JSON.parse(
       localStorage.getItem("goalix_predictions") || "{}"
     );
-  } catch {
+  } catch (error) {
+    console.warn("GOALIX predictions error:", error);
     return {};
   }
 }
@@ -31,7 +34,9 @@ function formatTime(dateString) {
 
   const d = new Date(dateString);
 
-  if (Number.isNaN(d.getTime())) return "--:--";
+  if (Number.isNaN(d.getTime())) {
+    return "--:--";
+  }
 
   return d.toLocaleTimeString("ar-EG", {
     hour: "2-digit",
@@ -46,12 +51,15 @@ function formatDate(dateString) {
 
   const d = new Date(dateString);
 
-  if (Number.isNaN(d.getTime())) return "";
+  if (Number.isNaN(d.getTime())) {
+    return "";
+  }
 
   return d.toLocaleDateString("ar-EG", {
     weekday: "long",
     day: "numeric",
     month: "long",
+    year: "numeric",
     timeZone: "Africa/Cairo"
   });
 }
@@ -79,8 +87,21 @@ function getStatus(status) {
     return "مباشرة";
   }
 
-  if (short === "PST") return "مؤجلة";
-  if (short === "CANC") return "ملغاة";
+  if (short === "PST") {
+    return "مؤجلة";
+  }
+
+  if (short === "CANC") {
+    return "ملغاة";
+  }
+
+  if (short === "ABD") {
+    return "متوقفة";
+  }
+
+  if (short === "SUSP") {
+    return "معلقة";
+  }
 
   return "لم تبدأ";
 }
@@ -101,7 +122,8 @@ function normalizeMatches(data) {
         "بطولة غير معروفة",
 
       country:
-        item.league?.country || "",
+        item.league?.country ||
+        "",
 
       home:
         item.teams?.home?.name ||
@@ -112,26 +134,32 @@ function normalizeMatches(data) {
         "الفريق الضيف",
 
       homeLogo:
-        item.teams?.home?.logo || "",
+        item.teams?.home?.logo ||
+        "",
 
       awayLogo:
-        item.teams?.away?.logo || "",
+        item.teams?.away?.logo ||
+        "",
 
       time: formatTime(item.fixture.date),
 
       status: getStatus(item.fixture.status),
 
       statusShort:
-        item.fixture.status?.short || "",
+        item.fixture.status?.short ||
+        "",
 
-      homeGoals: item.goals?.home,
-      awayGoals: item.goals?.away,
+      homeGoals:
+        item.goals?.home,
+
+      awayGoals:
+        item.goals?.away,
 
       homeWinner:
-        item.teams?.home?.winner,
+        item.teams?.home?.winner === true,
 
       awayWinner:
-        item.teams?.away?.winner
+        item.teams?.away?.winner === true
     }));
 }
 
@@ -201,7 +229,7 @@ function renderLeagues() {
     "الكل",
     ...new Set(
       matches
-        .map(m => m.league)
+        .map(match => match.league)
         .filter(Boolean)
     )
   ];
@@ -228,7 +256,7 @@ function getScoreHTML(match) {
   if (!hasScore) {
     return `
       <div class="match-score">
-        VS
+        لم تبدأ
       </div>
     `;
   }
@@ -245,19 +273,23 @@ function getScoreHTML(match) {
 function renderTeam(team, logo) {
   return `
     <div class="team">
+
       ${
         logo
           ? `
             <img
               src="${escapeHTML(logo)}"
-              alt=""
+              alt="${escapeHTML(team)}"
               loading="lazy"
               width="48"
               height="48"
             >
           `
           : `
-            <div class="team-logo-placeholder">
+            <div
+              class="team-logo-placeholder"
+              aria-hidden="true"
+            >
               ⚽
             </div>
           `
@@ -266,6 +298,7 @@ function renderTeam(team, logo) {
       <span>
         ${escapeHTML(team)}
       </span>
+
     </div>
   `;
 }
@@ -275,30 +308,36 @@ function renderMatches() {
 
   const query =
     search?.value
-      .trim()
-      .toLowerCase() || "";
+      ?.trim()
+      ?.toLowerCase() || "";
 
-  const league =
+  const selectedLeague =
     leagueFilter?.value || "الكل";
 
   const filtered =
     matches.filter(match => {
 
+      const home =
+        String(match.home || "")
+          .toLowerCase();
+
+      const away =
+        String(match.away || "")
+          .toLowerCase();
+
+      const league =
+        String(match.league || "")
+          .toLowerCase();
+
       const searchOK =
         !query ||
-        match.home
-          .toLowerCase()
-          .includes(query) ||
-        match.away
-          .toLowerCase()
-          .includes(query) ||
-        match.league
-          .toLowerCase()
-          .includes(query);
+        home.includes(query) ||
+        away.includes(query) ||
+        league.includes(query);
 
       const leagueOK =
-        league === "الكل" ||
-        match.league === league;
+        selectedLeague === "الكل" ||
+        match.league === selectedLeague;
 
       return searchOK && leagueOK;
     });
@@ -313,7 +352,7 @@ function renderMatches() {
     return;
   }
 
-  const saved = predictions();
+  const saved = getPredictions();
 
   grid.innerHTML =
     filtered
@@ -325,6 +364,7 @@ function renderMatches() {
         return `
           <article
             class="match-card goalix-match"
+            data-match-id="${Number(match.id)}"
           >
 
             <div class="match-header">
@@ -351,8 +391,13 @@ function renderMatches() {
               )}
 
               <div class="vs">
-                <span>ضد</span>
+
+                <span>
+                  ضد
+                </span>
+
                 ${getScoreHTML(match)}
+
               </div>
 
               ${renderTeam(
@@ -366,34 +411,26 @@ function renderMatches() {
 
               <button
                 class="choice"
-                onclick="predict(
-                  ${Number(match.id)},
-                  'home'
-                )"
+                type="button"
+                onclick="predict(${Number(match.id)}, 'home')"
               >
-                فوز
-                ${escapeHTML(match.home)}
+                فوز ${escapeHTML(match.home)}
               </button>
 
               <button
                 class="choice"
-                onclick="predict(
-                  ${Number(match.id)},
-                  'draw'
-                )"
+                type="button"
+                onclick="predict(${Number(match.id)}, 'draw')"
               >
                 تعادل
               </button>
 
               <button
                 class="choice"
-                onclick="predict(
-                  ${Number(match.id)},
-                  'away'
-                )"
+                type="button"
+                onclick="predict(${Number(match.id)}, 'away')"
               >
-                فوز
-                ${escapeHTML(match.away)}
+                فوز ${escapeHTML(match.away)}
               </button>
 
             </div>
@@ -419,9 +456,8 @@ function renderMatches() {
 
             <button
               class="analysis-button"
-              onclick="showAnalysis(
-                ${Number(match.id)}
-              )"
+              type="button"
+              onclick="showAnalysis(${Number(match.id)})"
             >
               تحليل المباراة
             </button>
@@ -452,17 +488,24 @@ function predict(id, choice) {
   };
 
   const saved =
-    predictions();
+    getPredictions();
 
   saved[id] = {
-    choice: choice,
+    choice,
     label: labels[choice]
   };
 
-  localStorage.setItem(
-    "goalix_predictions",
-    JSON.stringify(saved)
-  );
+  try {
+    localStorage.setItem(
+      "goalix_predictions",
+      JSON.stringify(saved)
+    );
+  } catch (error) {
+    console.warn(
+      "تعذر حفظ التوقع:",
+      error
+    );
+  }
 
   updateCount();
   renderMatches();
@@ -476,49 +519,38 @@ function predict(id, choice) {
         </div>
 
         <h3>
-          ${escapeHTML(
-            match.home
-          )}
+          ${escapeHTML(match.home)}
           ضد
-          ${escapeHTML(
-            match.away
-          )}
+          ${escapeHTML(match.away)}
         </h3>
 
         <p>
           اختيارك:
           <strong>
-            ${escapeHTML(
-              labels[choice]
-            )}
+            ${escapeHTML(labels[choice])}
           </strong>
         </p>
 
       </div>
     `;
+
+    analysis.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
   }
 }
 
 function calculateSimpleAnalysis(match) {
-  let recommendation =
-    "تحليل مبدئي";
-
-  if (
-    match.homeWinner === true
-  ) {
-    recommendation =
-      `أفضلية ${match.home}`;
-  } else if (
-    match.awayWinner === true
-  ) {
-    recommendation =
-      `أفضلية ${match.away}`;
-  } else {
-    recommendation =
-      "المباراة متوازنة";
+  if (match.homeWinner === true) {
+    return `أفضلية ${match.home}`;
   }
 
-  return recommendation;
+  if (match.awayWinner === true) {
+    return `أفضلية ${match.away}`;
+  }
+
+  return "المباراة متوازنة";
 }
 
 function showAnalysis(id) {
@@ -530,13 +562,19 @@ function showAnalysis(id) {
   if (!match || !analysis) return;
 
   const saved =
-    predictions();
+    getPredictions();
 
   const prediction =
     saved[id];
 
   const recommendation =
     calculateSimpleAnalysis(match);
+
+  const hasScore =
+    match.homeGoals !== null &&
+    match.homeGoals !== undefined &&
+    match.awayGoals !== null &&
+    match.awayGoals !== undefined;
 
   analysis.innerHTML = `
     <div class="analysis-box">
@@ -576,9 +614,8 @@ function showAnalysis(id) {
         <span>النتيجة</span>
         <strong>
           ${
-            match.homeGoals !== null &&
-            match.homeGoals !== undefined
-              ? `${match.homeGoals} - ${match.awayGoals}`
+            hasScore
+              ? `${escapeHTML(match.homeGoals)} - ${escapeHTML(match.awayGoals)}`
               : "لم تبدأ"
           }
         </strong>
@@ -595,12 +632,17 @@ function showAnalysis(id) {
         prediction
           ? `
             <div class="analysis-row">
-              <span>توقعك</span>
+
+              <span>
+                توقعك
+              </span>
+
               <strong>
                 ${escapeHTML(
                   prediction.label
                 )}
               </strong>
+
             </div>
           `
           : `
@@ -628,15 +670,13 @@ function updateCount() {
 
   predictionCount.textContent =
     Object.keys(
-      predictions()
+      getPredictions()
     ).length;
 }
 
 function scrollToMatches() {
   document
-    .getElementById(
-      "matches-section"
-    )
+    .getElementById("matches-section")
     ?.scrollIntoView({
       behavior: "smooth"
     });
@@ -659,32 +699,19 @@ function setupTabs() {
           if (!target) return;
 
           document
-            .querySelectorAll(
-              "nav button"
-            )
+            .querySelectorAll("nav button")
             .forEach(btn =>
-              btn.classList.remove(
-                "active"
-              )
+              btn.classList.remove("active")
             );
 
           document
-            .querySelectorAll(
-              ".page"
-            )
+            .querySelectorAll(".page")
             .forEach(page =>
-              page.classList.remove(
-                "active"
-              )
+              page.classList.remove("active")
             );
 
-          button.classList.add(
-            "active"
-          );
-
-          target.classList.add(
-            "active"
-          );
+          button.classList.add("active");
+          target.classList.add("active");
         }
       );
 
@@ -693,45 +720,50 @@ function setupTabs() {
 
 function setupTheme() {
   const theme =
-    document.getElementById(
-      "theme"
-    );
+    document.getElementById("theme");
 
   if (!theme) return;
 
-  if (
-    localStorage.getItem(
-      "goalix_theme"
-    ) === "light"
-  ) {
-    document.body.classList.add(
-      "light"
-    );
+  const savedTheme =
+    localStorage.getItem("goalix_theme");
 
+  if (savedTheme === "light") {
+    document.body.classList.add("light");
     theme.textContent = "☀";
+    theme.setAttribute(
+      "aria-label",
+      "تفعيل المظهر الداكن"
+    );
+  } else {
+    theme.textContent = "☾";
+    theme.setAttribute(
+      "aria-label",
+      "تفعيل المظهر الفاتح"
+    );
   }
 
   theme.addEventListener(
     "click",
     () => {
 
-      document.body.classList.toggle(
-        "light"
-      );
+      document.body.classList.toggle("light");
 
-      const light =
-        document.body.classList.contains(
-          "light"
-        );
+      const isLight =
+        document.body.classList.contains("light");
 
       theme.textContent =
-        light ? "☀" : "☾";
+        isLight ? "☀" : "☾";
+
+      theme.setAttribute(
+        "aria-label",
+        isLight
+          ? "تفعيل المظهر الداكن"
+          : "تفعيل المظهر الفاتح"
+      );
 
       localStorage.setItem(
         "goalix_theme",
-        light
-          ? "light"
-          : "dark"
+        isLight ? "light" : "dark"
       );
     }
   );
@@ -753,4 +785,5 @@ if (leagueFilter) {
 
 setupTabs();
 setupTheme();
+updateCount();
 loadMatches();
