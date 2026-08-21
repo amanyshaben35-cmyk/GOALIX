@@ -22,10 +22,6 @@ jobs:
         run: |
           echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
-      # =========================
-      # مباريات اليوم
-      # =========================
-
       - name: Fetch today's matches
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
@@ -39,26 +35,7 @@ jobs:
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
             -o data/all-matches.json
 
-      # =========================
-      # إضافة الدوري المصري
-      # =========================
-
-      - name: Fetch Egyptian Premier League
-        env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-          TODAY: ${{ steps.date.outputs.today }}
-        run: |
-
-          curl -fLsS \
-            --url "https://v3.football.api-sports.io/fixtures?league=141&season=2026&date=${TODAY}&timezone=Africa/Cairo" \
-            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
-            -o data/egypt-matches.json
-
-      # =========================
-      # دمج البيانات
-      # =========================
-
-      - name: Merge GOALIX data
+      - name: Validate GOALIX data
         run: |
 
           python3 - <<'PY'
@@ -68,63 +45,39 @@ jobs:
           from datetime import datetime
           from zoneinfo import ZoneInfo
 
-          main_file = Path("data/all-matches.json")
-          egypt_file = Path("data/egypt-matches.json")
+          file = Path("data/all-matches.json")
 
-          main = json.loads(
-              main_file.read_text(
+          data = json.loads(
+              file.read_text(
                   encoding="utf-8"
               )
           )
 
-          egypt = json.loads(
-              egypt_file.read_text(
-                  encoding="utf-8"
-              )
-          )
-
-          if main.get("errors"):
+          if data.get("errors"):
               raise SystemExit(
-                  f"Main API error: {main['errors']}"
+                  f"API error: {data['errors']}"
               )
 
-          if egypt.get("errors"):
-              raise SystemExit(
-                  f"Egypt API error: {egypt['errors']}"
-              )
+          response = data.get("response", [])
 
-          existing_ids = {
-              item.get("fixture", {}).get("id")
-              for item in main.get("response", [])
-          }
+          egypt_matches = []
 
-          added = 0
+          for item in response:
 
-          for item in egypt.get("response", []):
+              league = item.get("league", {})
 
-              fixture_id = item.get(
-                  "fixture", {}
-              ).get("id")
+              if league.get("id") == 141:
+                  egypt_matches.append(item)
 
-              if fixture_id not in existing_ids:
+          data["results"] = len(response)
 
-                  main.setdefault(
-                      "response", []
-                  ).append(item)
-
-                  added += 1
-
-          main["results"] = len(
-              main.get("response", [])
-          )
-
-          main["updated"] = datetime.now(
+          data["updated"] = datetime.now(
               ZoneInfo("Africa/Cairo")
           ).isoformat()
 
-          main_file.write_text(
+          file.write_text(
               json.dumps(
-                  main,
+                  data,
                   ensure_ascii=False,
                   indent=2
               ),
@@ -132,18 +85,32 @@ jobs:
           )
 
           print(
-              f"GOALIX: added {added} Egyptian matches"
+              f"GOALIX TOTAL MATCHES: {len(response)}"
           )
 
           print(
-              f"GOALIX TOTAL: {len(main.get('response', []))}"
+              f"EGYPTIAN PREMIER LEAGUE MATCHES: {len(egypt_matches)}"
           )
 
-          PY
+          for match in egypt_matches:
 
-      # =========================
-      # حفظ البيانات
-      # =========================
+              teams = match.get("teams", {})
+
+              home = teams.get("home", {}).get(
+                  "name",
+                  "Unknown"
+              )
+
+              away = teams.get("away", {}).get(
+                  "name",
+                  "Unknown"
+              )
+
+              print(
+                  f"EGYPT: {home} vs {away}"
+              )
+
+          PY
 
       - name: Save updated data
         run: |
