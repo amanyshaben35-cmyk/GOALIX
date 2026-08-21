@@ -1,14 +1,40 @@
 <!doctype html>
-<html lang="ar" dir="rtl"> translate="no"
+<html lang="ar" dir="rtl" translate="no">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="theme-color" content="#0b1020">
-  <meta name="description" content="GOALIX Sports - مباريات ونتائج وتحليلات رياضية">
+  <meta name="google" content="notranslate">
 
-  <link rel="manifest" href="/GOALIX/manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b1020"
+  >
+
+  <meta
+    name="description"
+    content="GOALIX Sports - مباريات ونتائج وإحصائيات وتحليلات رياضية"
+  >
+
+  <meta
+    name="robots"
+    content="index,follow"
+  >
+
+  <link
+    rel="manifest"
+    href="/GOALIX/manifest.json"
+  >
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
   <title>GOALIX Sports</title>
 </head>
@@ -16,16 +42,32 @@
 <body>
 
   <header>
-    <div class="logo">GOAL<span>IX</span></div>
-    <button id="theme" type="button">☾</button>
+
+    <div class="logo">
+      GOAL<span>IX</span>
+    </div>
+
+    <button
+      id="theme"
+      type="button"
+      aria-label="تغيير المظهر"
+    >
+      ☾
+    </button>
+
   </header>
 
   <main>
 
     <section class="hero">
-      <small>GOALIX SPORTS</small>
 
-      <h1>كل الكرة في مكان واحد.</h1>
+      <small>
+        GOALIX SPORTS
+      </small>
+
+      <h1>
+        كل الكرة في مكان واحد.
+      </h1>
 
       <p>
         نتائج ومباريات وإحصائيات وتحليلات رياضية
@@ -35,30 +77,52 @@
       <button
         class="hero-button"
         type="button"
-        onclick="scrollToMatches()">
+        onclick="scrollToMatches()"
+      >
         مباريات اليوم
       </button>
+
     </section>
 
-    <nav>
-      <button class="active" type="button" data-tab="matches-section">
+    <nav aria-label="التنقل الرئيسي">
+
+      <button
+        class="active"
+        type="button"
+        data-tab="matches-section"
+      >
         المباريات
       </button>
 
-      <button type="button" data-tab="leagues">
+      <button
+        type="button"
+        data-tab="leagues"
+      >
         الدوريات
       </button>
 
-      <button type="button" data-tab="teams">
+      <button
+        type="button"
+        data-tab="teams"
+      >
         الفرق
       </button>
+
     </nav>
 
-    <section id="matches-section" class="page active">
+    <section
+      id="matches-section"
+      class="page active"
+    >
 
       <div class="head">
-        <h2>مباريات اليوم</h2>
+
+        <h2>
+          مباريات اليوم
+        </h2>
+
         <span id="date"></span>
+
       </div>
 
       <div class="goalix-controls">
@@ -67,85 +131,136 @@
           id="search"
           type="search"
           placeholder="ابحث عن فريق أو دوري..."
+          autocomplete="off"
         >
 
-        <select id="league-filter">
-          <option value="الكل">كل الدوريات</option>
+        <select
+          id="league-filter"
+          aria-label="اختيار الدوري"
+        >
+          <option value="الكل">
+            كل الدوريات
+          </option>
         </select>
 
       </div>
 
-      <div id="matches"></div>
+      <div id="matches">
+
+        <div class="no-matches">
+          جاري تحميل المباريات... ⚽
+        </div>
+
+      </div>
 
       <section class="goalix-analysis">
-        <h2>تحليل GOALIX</h2>
+
+        <h2>
+          تحليل GOALIX
+        </h2>
 
         <div id="analysis">
-          <p>اختر مباراة لعرض التحليل.</p>
+
+          <p>
+            اختر مباراة لعرض التحليل.
+          </p>
+
         </div>
+
       </section>
 
       <div class="goalix-stats">
+
         توقعاتك:
-        <strong id="prediction-count">0</strong>
+
+        <strong id="prediction-count">
+          0
+        </strong>
+
       </div>
 
     </section>
 
-    <section id="leagues" class="page">
+    <section
+      id="leagues"
+      class="page"
+    >
 
-      <h2>أهم الدوريات</h2>
+      <h2>
+        أهم الدوريات
+      </h2>
 
       <div class="grid">
 
         <div>
           🏆 الدوري الإنجليزي
-          <small>Premier League</small>
+          <small>
+            Premier League
+          </small>
         </div>
 
         <div>
           🇪🇸 الدوري الإسباني
-          <small>La Liga</small>
+          <small>
+            La Liga
+          </small>
         </div>
 
         <div>
           🇮🇹 الدوري الإيطالي
-          <small>Serie A</small>
+          <small>
+            Serie A
+          </small>
         </div>
 
         <div>
           🇪🇺 دوري الأبطال
-          <small>Champions League</small>
+          <small>
+            Champions League
+          </small>
         </div>
 
       </div>
 
     </section>
 
-    <section id="teams" class="page">
+    <section
+      id="teams"
+      class="page"
+    >
 
-      <h2>فرق مميزة</h2>
+      <h2>
+        فرق مميزة
+      </h2>
 
       <div class="grid">
 
         <div>
           🔴 الأهلي
-          <small>Al Ahly</small>
+          <small>
+            Al Ahly
+          </small>
         </div>
 
         <div>
           ⚪ الزمالك
-          <small>Zamalek</small>
+          <small>
+            Zamalek
+          </small>
         </div>
 
         <div>
           🔵 برشلونة
-          <small>Barcelona</small>
+          <small>
+            Barcelona
+          </small>
         </div>
 
         <div>
           ⚪ ريال مدريد
-          <small>Real Madrid</small>
+          <small>
+            Real Madrid
+          </small>
         </div>
 
       </div>
@@ -155,21 +270,42 @@
   </main>
 
   <footer>
+
     © 2026 GOALIX
-    <span>نتائج • إحصائيات • تحليلات</span>
+
+    <span>
+      نتائج • إحصائيات • تحليلات
+    </span>
+
   </footer>
 
   <script src="app.js"></script>
 
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("/GOALIX/pwabuilder-sw.js")
-          .catch(error => console.log(error));
-      });
+
+      window.addEventListener(
+        "load",
+        () => {
+
+          navigator.serviceWorker
+            .register(
+              "/GOALIX/pwabuilder-sw.js"
+            )
+            .catch(
+              error =>
+                console.log(
+                  "GOALIX Service Worker:",
+                  error
+                )
+            );
+
+        }
+      );
+
     }
   </script>
 
 </body>
+
 </html>
