@@ -1,50 +1,31 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-
 <head>
-  <link rel="manifest" href="/GOALIX/manifest.json">
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="GOALIX Sports - مباريات ونتائج وتحليلات رياضية">
 
-  <meta
-    name="description"
-    content="GOALIX Sports - نتائج ومباريات وإحصائيات وتحليلات رياضية"
-  >
+  <link rel="manifest" href="/GOALIX/manifest.json">
+  <link rel="stylesheet" href="style.css">
 
   <title>GOALIX Sports</title>
-
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <header>
-    <div class="logo">
-      GOAL<span>IX</span>
-    </div>
-
-    <button
-      id="theme"
-      aria-label="تغيير المظهر"
-    >
-      ☾
-    </button>
+    <div class="logo">GOAL<span>IX</span></div>
+    <button id="theme" type="button">☾</button>
   </header>
-
 
   <main>
 
-    <!-- Hero -->
     <section class="hero">
-
       <small>GOALIX SPORTS</small>
 
-      <h1>
-        كل الكرة في مكان واحد.
-      </h1>
+      <h1>كل الكرة في مكان واحد.</h1>
 
       <p>
         نتائج ومباريات وإحصائيات وتحليلات رياضية
@@ -52,197 +33,119 @@
       </p>
 
       <button
-        onclick="scrollToMatches()"
         class="hero-button"
-      >
+        type="button"
+        onclick="scrollToMatches()">
         مباريات اليوم
       </button>
-
     </section>
 
-
-    <!-- Navigation -->
     <nav>
-
-      <button
-        class="active"
-        data-tab="matches-section"
-      >
+      <button class="active" type="button" data-tab="matches-section">
         المباريات
       </button>
 
-      <button
-        data-tab="leagues"
-      >
+      <button type="button" data-tab="leagues">
         الدوريات
       </button>
 
-      <button
-        data-tab="teams"
-      >
+      <button type="button" data-tab="teams">
         الفرق
       </button>
-
     </nav>
 
-
-    <!-- Matches -->
-    <section
-      id="matches-section"
-      class="page active"
-    >
+    <section id="matches-section" class="page active">
 
       <div class="head">
-
-        <h2>
-          مباريات اليوم
-        </h2>
-
+        <h2>مباريات اليوم</h2>
         <span id="date"></span>
-
       </div>
 
-
-      <!-- Search and filter -->
       <div class="goalix-controls">
 
         <input
           id="search"
           type="search"
           placeholder="ابحث عن فريق أو دوري..."
-          aria-label="البحث عن فريق أو دوري"
         >
 
-        <select
-          id="league-filter"
-          aria-label="اختيار الدوري"
-        >
-          <option value="الكل">
-            كل الدوريات
-          </option>
+        <select id="league-filter">
+          <option value="الكل">كل الدوريات</option>
         </select>
 
       </div>
 
-
-      <!-- Matches container -->
       <div id="matches"></div>
 
-
-      <!-- Analysis -->
       <section class="goalix-analysis">
-
-        <h2>
-          تحليل GOALIX
-        </h2>
+        <h2>تحليل GOALIX</h2>
 
         <div id="analysis">
-
-          <p>
-            اختر مباراة لعرض التحليل.
-          </p>
-
+          <p>اختر مباراة لعرض التحليل.</p>
         </div>
-
       </section>
 
-
-      <!-- Prediction counter -->
       <div class="goalix-stats">
-
         توقعاتك:
-        <strong id="prediction-count">
-          0
-        </strong>
-
+        <strong id="prediction-count">0</strong>
       </div>
 
     </section>
 
+    <section id="leagues" class="page">
 
-    <!-- Leagues -->
-    <section
-      id="leagues"
-      class="page"
-    >
-
-      <h2>
-        أهم الدوريات
-      </h2>
+      <h2>أهم الدوريات</h2>
 
       <div class="grid">
 
         <div>
           🏆 الدوري الإنجليزي
-          <small>
-            Premier League
-          </small>
+          <small>Premier League</small>
         </div>
 
         <div>
           🇪🇸 الدوري الإسباني
-          <small>
-            La Liga
-          </small>
+          <small>La Liga</small>
         </div>
 
         <div>
           🇮🇹 الدوري الإيطالي
-          <small>
-            Serie A
-          </small>
+          <small>Serie A</small>
         </div>
 
         <div>
           🇪🇺 دوري الأبطال
-          <small>
-            Champions League
-          </small>
+          <small>Champions League</small>
         </div>
 
       </div>
 
     </section>
 
+    <section id="teams" class="page">
 
-    <!-- Teams -->
-    <section
-      id="teams"
-      class="page"
-    >
-
-      <h2>
-        فرق مميزة
-      </h2>
+      <h2>فرق مميزة</h2>
 
       <div class="grid">
 
         <div>
           🔴 الأهلي
-          <small>
-            Al Ahly
-          </small>
+          <small>Al Ahly</small>
         </div>
 
         <div>
           ⚪ الزمالك
-          <small>
-            Zamalek
-          </small>
+          <small>Zamalek</small>
         </div>
 
         <div>
           🔵 برشلونة
-          <small>
-            Barcelona
-          </small>
+          <small>Barcelona</small>
         </div>
 
         <div>
           ⚪ ريال مدريد
-          <small>
-            Real Madrid
-          </small>
+          <small>Real Madrid</small>
         </div>
 
       </div>
@@ -251,50 +154,21 @@
 
   </main>
 
-
-  <!-- Footer -->
   <footer>
-
     © 2026 GOALIX
-
-    <span>
-      نتائج • إحصائيات • تحليلات
-    </span>
-
+    <span>نتائج • إحصائيات • تحليلات</span>
   </footer>
 
-
-  <!-- JavaScript -->
   <script src="app.js"></script>
 
-
-  <!-- Service Worker -->
   <script>
-
     if ("serviceWorker" in navigator) {
-
       window.addEventListener("load", () => {
-
         navigator.serviceWorker
           .register("/GOALIX/pwabuilder-sw.js")
-
-          .then(() => {
-            console.log(
-              "GOALIX Service Worker registered"
-            );
-          })
-
-          .catch((error) => {
-            console.error(
-              "Service Worker error:",
-              error
-            );
-          });
-
+          .catch(error => console.log(error));
       });
-
     }
-
   </script>
 
 </body>
