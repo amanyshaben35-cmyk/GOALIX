@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>GOALIX - غير متصل</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: #0b1020;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      padding: 35px 25px;
+      border-radius: 24px;
+      background: #151c31;
+      box-shadow: 0 15px 45px rgba(0,0,0,.35);
+    }
+
+    .logo {
+      font-size: 42px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 25px;
+      margin-bottom: 14px;
+    }
+
+    p {
+      color: #b8c0d4;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 28px;
+      background: #16c784;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #737d96;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="card">
+    <div class="logo">GOALIX</div>
+
+    <div class="icon">📡</div>
+
+    <h1>أنت غير متصل بالإنترنت</h1>
+
+    <p>
+      يبدو أن اتصال الإنترنت غير متاح حاليًا.
+      تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى.
+    </p>
+
+    <button onclick="location.reload()">
+      إعادة المحاولة
+    </button>
+
+    <div class="footer">
+      GOALIX Sports
+    </div>
+  </main>
+
+</body>
+</html>
