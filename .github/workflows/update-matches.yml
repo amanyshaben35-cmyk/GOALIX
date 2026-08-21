@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -21,11 +22,16 @@ jobs:
         run: |
           echo "today=$(TZ=Africa/Cairo date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch matches
+      # =========================
+      # مباريات اليوم
+      # =========================
+
+      - name: Fetch today's matches
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           TODAY: ${{ steps.date.outputs.today }}
         run: |
+
           mkdir -p data
 
           curl -fLsS \
@@ -33,64 +39,123 @@ jobs:
             --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
             -o data/all-matches.json
 
-      - name: Build GOALIX data
+      # =========================
+      # إضافة الدوري المصري
+      # =========================
+
+      - name: Fetch Egyptian Premier League
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          TODAY: ${{ steps.date.outputs.today }}
         run: |
+
+          curl -fLsS \
+            --url "https://v3.football.api-sports.io/fixtures?league=141&season=2026&date=${TODAY}&timezone=Africa/Cairo" \
+            --header "x-apisports-key: ${API_FOOTBALL_KEY}" \
+            -o data/egypt-matches.json
+
+      # =========================
+      # دمج البيانات
+      # =========================
+
+      - name: Merge GOALIX data
+        run: |
+
           python3 - <<'PY'
+
           import json
           from pathlib import Path
           from datetime import datetime
           from zoneinfo import ZoneInfo
 
-          source = json.loads(
-              Path("data/all-matches.json").read_text(encoding="utf-8")
+          main_file = Path("data/all-matches.json")
+          egypt_file = Path("data/egypt-matches.json")
+
+          main = json.loads(
+              main_file.read_text(
+                  encoding="utf-8"
+              )
           )
 
-          if "errors" in source and source["errors"]:
-              raise SystemExit(f"API error: {source['errors']}")
+          egypt = json.loads(
+              egypt_file.read_text(
+                  encoding="utf-8"
+              )
+          )
 
-          result = []
+          if main.get("errors"):
+              raise SystemExit(
+                  f"Main API error: {main['errors']}"
+              )
 
-          for item in source.get("response", []):
-              fixture = item.get("fixture", {})
-              teams = item.get("teams", {})
-              league = item.get("league", {})
+          if egypt.get("errors"):
+              raise SystemExit(
+                  f"Egypt API error: {egypt['errors']}"
+              )
 
-              home = teams.get("home", {}).get("name")
-              away = teams.get("away", {}).get("name")
-              date = fixture.get("date")
-
-              if not home or not away or not date:
-                  continue
-
-              dt = datetime.fromisoformat(date.replace("Z", "+00:00"))
-              egypt_time = dt.astimezone(ZoneInfo("Africa/Cairo"))
-
-              result.append({
-                  "id": fixture.get("id"),
-                  "league": league.get("name", "كرة القدم"),
-                  "home": home,
-                  "away": away,
-                  "time": egypt_time.strftime("%H:%M"),
-                  "status": fixture.get("status", {}).get("short", "")
-              })
-
-          output = {
-              "updated": datetime.now(ZoneInfo("Africa/Cairo")).isoformat(),
-              "matches": result
+          existing_ids = {
+              item.get("fixture", {}).get("id")
+              for item in main.get("response", [])
           }
 
-          Path("data/matches.json").write_text(
-              json.dumps(output, ensure_ascii=False, indent=2),
+          added = 0
+
+          for item in egypt.get("response", []):
+
+              fixture_id = item.get(
+                  "fixture", {}
+              ).get("id")
+
+              if fixture_id not in existing_ids:
+
+                  main.setdefault(
+                      "response", []
+                  ).append(item)
+
+                  added += 1
+
+          main["results"] = len(
+              main.get("response", [])
+          )
+
+          main["updated"] = datetime.now(
+              ZoneInfo("Africa/Cairo")
+          ).isoformat()
+
+          main_file.write_text(
+              json.dumps(
+                  main,
+                  ensure_ascii=False,
+                  indent=2
+              ),
               encoding="utf-8"
           )
 
-          print(f"GOALIX MATCHES: {len(result)}")
+          print(
+              f"GOALIX: added {added} Egyptian matches"
+          )
+
+          print(
+              f"GOALIX TOTAL: {len(main.get('response', []))}"
+          )
+
           PY
+
+      # =========================
+      # حفظ البيانات
+      # =========================
 
       - name: Save updated data
         run: |
+
           git config user.name "GOALIX Bot"
+
           git config user.email "actions@github.com"
-          git add data/matches.json data/all-matches.json
-          git commit -m "Update GOALIX matches" || echo "No changes"
+
+          git add data/all-matches.json
+
+          git commit \
+            -m "Update GOALIX matches" \
+            || echo "No changes"
+
           git push
