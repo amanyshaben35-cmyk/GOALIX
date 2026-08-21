@@ -6,19 +6,15 @@ const grid = document.getElementById("matches");
 const analysis = document.getElementById("analysis");
 const search = document.getElementById("search");
 const leagueFilter = document.getElementById("league-filter");
-const date = document.getElementById("date");
+const dateElement = document.getElementById("date");
 const predictionCount = document.getElementById("prediction-count");
 
-function getPredictions() {
-  try {
-    return JSON.parse(
-      localStorage.getItem("goalix_predictions") || "{}"
-    );
-  } catch (error) {
-    console.warn("GOALIX predictions error:", error);
-    return {};
-  }
-}
+const DATA_URL = "data/all-matches.json";
+const TIME_ZONE = "Africa/Cairo";
+
+/* =========================
+   أدوات عامة
+========================= */
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -29,82 +25,104 @@ function escapeHTML(value) {
     .replace(/'/g, "&#039;");
 }
 
+function getPredictions() {
+  try {
+    const saved = localStorage.getItem("goalix_predictions");
+    return saved ? JSON.parse(saved) : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePredictions(data) {
+  try {
+    localStorage.setItem(
+      "goalix_predictions",
+      JSON.stringify(data)
+    );
+  } catch (error) {
+    console.warn("GOALIX localStorage:", error);
+  }
+}
+
 function formatTime(dateString) {
   if (!dateString) return "--:--";
 
-  const d = new Date(dateString);
+  const value = new Date(dateString);
 
-  if (Number.isNaN(d.getTime())) {
+  if (Number.isNaN(value.getTime())) {
     return "--:--";
   }
 
-  return d.toLocaleTimeString("ar-EG", {
+  return value.toLocaleTimeString("ar-EG", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: "Africa/Cairo"
+    timeZone: TIME_ZONE
   });
 }
 
 function formatDate(dateString) {
   if (!dateString) return "";
 
-  const d = new Date(dateString);
+  const value = new Date(dateString);
 
-  if (Number.isNaN(d.getTime())) {
+  if (Number.isNaN(value.getTime())) {
     return "";
   }
 
-  return d.toLocaleDateString("ar-EG", {
+  return value.toLocaleDateString("ar-EG", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: "Africa/Cairo"
+    timeZone: TIME_ZONE
   });
 }
 
-function getStatus(status) {
-  const short = status?.short || "";
+/* =========================
+   حالة المباراة
+========================= */
 
-  if (
-    short === "FT" ||
-    short === "AET" ||
-    short === "PEN"
-  ) {
+function getStatus(status) {
+  const short = String(status?.short || "").toUpperCase();
+
+  if (["FT", "AET", "PEN"].includes(short)) {
     return "انتهت";
   }
 
   if (
-    short === "LIVE" ||
-    short === "1H" ||
-    short === "2H" ||
-    short === "HT" ||
-    short === "ET" ||
-    short === "BT" ||
-    short === "P"
+    [
+      "LIVE",
+      "1H",
+      "2H",
+      "HT",
+      "ET",
+      "BT",
+      "P"
+    ].includes(short)
   ) {
     return "مباشرة";
   }
 
-  if (short === "PST") {
+  if (["PST", "SUSP"].includes(short)) {
     return "مؤجلة";
   }
 
-  if (short === "CANC") {
+  if (["CANC", "ABD"].includes(short)) {
     return "ملغاة";
   }
 
-  if (short === "ABD") {
-    return "متوقفة";
-  }
-
-  if (short === "SUSP") {
-    return "معلقة";
+  if (short === "TBD") {
+    return "لم يحدد الموعد";
   }
 
   return "لم تبدأ";
 }
+
+/* =========================
+   تحويل بيانات API
+========================= */
 
 function normalizeMatches(data) {
   if (!data || !Array.isArray(data.response)) {
@@ -113,177 +131,159 @@ function normalizeMatches(data) {
 
   return data.response
     .filter(item => item?.fixture && item?.teams)
-    .map(item => ({
-      id: item.fixture.id,
-      date: item.fixture.date,
+    .map(item => {
+      const fixture = item.fixture;
+      const league = item.league || {};
+      const home = item.teams?.home || {};
+      const away = item.teams?.away || {};
+      const goals = item.goals || {};
+      const score = item.score || {};
 
-      league:
-        item.league?.name ||
-        "بطولة غير معروفة",
+      return {
+        id: Number(fixture.id),
 
-      country:
-        item.league?.country ||
-        "",
+        date: fixture.date || "",
 
-      home:
-        item.teams?.home?.name ||
-        "الفريق المضيف",
+        league:
+          league.name ||
+          "بطولة غير معروفة",
 
-      away:
-        item.teams?.away?.name ||
-        "الفريق الضيف",
+        country:
+          league.country ||
+          "",
 
-      homeLogo:
-        item.teams?.home?.logo ||
-        "",
+        home:
+          home.name ||
+          "الفريق المضيف",
 
-      awayLogo:
-        item.teams?.away?.logo ||
-        "",
+        away:
+          away.name ||
+          "الفريق الضيف",
 
-      time: formatTime(item.fixture.date),
+        homeLogo:
+          home.logo ||
+          "",
 
-      status: getStatus(item.fixture.status),
+        awayLogo:
+          away.logo ||
+          "",
 
-      statusShort:
-        item.fixture.status?.short ||
-        "",
+        status:
+          getStatus(fixture.status),
 
-      homeGoals:
-        item.goals?.home,
+        statusShort:
+          String(fixture.status?.short || "").toUpperCase(),
 
-      awayGoals:
-        item.goals?.away,
+        time:
+          formatTime(fixture.date),
 
-      homeWinner:
-        item.teams?.home?.winner === true,
+        homeGoals:
+          goals.home ?? null,
 
-      awayWinner:
-        item.teams?.away?.winner === true
-    }));
+        awayGoals:
+          goals.away ?? null,
+
+        homeWinner:
+          home.winner === true,
+
+        awayWinner:
+          away.winner === true,
+
+        homePenalty:
+          score.penalty?.home ?? null,
+
+        awayPenalty:
+          score.penalty?.away ?? null,
+
+        homeExtraTime:
+          score.extratime?.home ?? null,
+
+        awayExtraTime:
+          score.extratime?.away ?? null
+      };
+    })
+    .filter(match => Number.isFinite(match.id));
 }
 
-async function loadMatches() {
-  if (grid) {
-    grid.innerHTML = `
-      <div class="no-matches">
-        جاري تحميل مباريات اليوم... ⚽
-      </div>
-    `;
-  }
-
-  try {
-    const response = await fetch(
-      "data/all-matches.json",
-      {
-        cache: "no-store"
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "تعذر تحميل ملف المباريات"
-      );
-    }
-
-    const data = await response.json();
-
-    matches = normalizeMatches(data);
-
-    if (!matches.length) {
-      throw new Error(
-        "لم يتم العثور على مباريات"
-      );
-    }
-
-    if (date && matches[0]?.date) {
-      date.textContent =
-        formatDate(matches[0].date);
-    }
-
-    renderLeagues();
-    renderMatches();
-    updateCount();
-
-  } catch (error) {
-    console.error(
-      "GOALIX:",
-      error
-    );
-
-    if (grid) {
-      grid.innerHTML = `
-        <div class="no-matches">
-          تعذر تحميل المباريات حاليًا.<br>
-          تأكد من اتصال الإنترنت ثم أعد المحاولة.
-        </div>
-      `;
-    }
-  }
-}
-
-function renderLeagues() {
-  if (!leagueFilter) return;
-
-  const leagues = [
-    "الكل",
-    ...new Set(
-      matches
-        .map(match => match.league)
-        .filter(Boolean)
-    )
-  ];
-
-  leagueFilter.innerHTML =
-    leagues
-      .map(
-        league => `
-          <option value="${escapeHTML(league)}">
-            ${escapeHTML(league)}
-          </option>
-        `
-      )
-      .join("");
-}
+/* =========================
+   النتيجة
+========================= */
 
 function getScoreHTML(match) {
-  const hasScore =
+  const hasGoals =
     match.homeGoals !== null &&
     match.homeGoals !== undefined &&
     match.awayGoals !== null &&
     match.awayGoals !== undefined;
 
-  if (!hasScore) {
+  if (!hasGoals) {
     return `
       <div class="match-score">
-        لم تبدأ
+        <span>—</span>
       </div>
+    `;
+  }
+
+  let scoreText =
+    `${escapeHTML(match.homeGoals)} - ${escapeHTML(match.awayGoals)}`;
+
+  const hasPenalties =
+    match.homePenalty !== null &&
+    match.homePenalty !== undefined &&
+    match.awayPenalty !== null &&
+    match.awayPenalty !== undefined;
+
+  if (
+    match.statusShort === "PEN" ||
+    hasPenalties
+  ) {
+    scoreText += `
+      <small class="penalty-score">
+        ركلات الترجيح
+        ${escapeHTML(match.homePenalty)}
+        - 
+        ${escapeHTML(match.awayPenalty)}
+      </small>
     `;
   }
 
   return `
     <div class="match-score">
-      ${escapeHTML(match.homeGoals)}
-      -
-      ${escapeHTML(match.awayGoals)}
+      ${scoreText}
     </div>
   `;
 }
 
-function renderTeam(team, logo) {
+/* =========================
+   عرض الفريق
+========================= */
+
+function renderTeam(name, logo) {
+  const safeName = escapeHTML(name);
+  const safeLogo = escapeHTML(logo);
+
   return `
     <div class="team">
 
       ${
-        logo
+        safeLogo
           ? `
             <img
-              src="${escapeHTML(logo)}"
-              alt="${escapeHTML(team)}"
+              src="${safeLogo}"
+              alt="${safeName}"
               loading="lazy"
-              width="48"
-              height="48"
+              width="52"
+              height="52"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
             >
+
+            <div
+              class="team-logo-placeholder"
+              style="display:none"
+              aria-hidden="true"
+            >
+              ⚽
+            </div>
           `
           : `
             <div
@@ -295,13 +295,131 @@ function renderTeam(team, logo) {
           `
       }
 
-      <span>
-        ${escapeHTML(team)}
+      <span title="${safeName}">
+        ${safeName}
       </span>
 
     </div>
   `;
 }
+
+/* =========================
+   تحميل المباريات
+========================= */
+
+async function loadMatches() {
+  if (grid) {
+    grid.innerHTML = `
+      <div class="no-matches">
+        جاري تحميل مباريات اليوم... ⚽
+      </div>
+    `;
+  }
+
+  try {
+    const response = await fetch(DATA_URL, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+
+    matches = normalizeMatches(data);
+
+    if (!matches.length) {
+      throw new Error(
+        "لا توجد مباريات في ملف البيانات"
+      );
+    }
+
+    updatePageDate();
+
+    renderLeagues();
+    renderMatches();
+    updateCount();
+
+  } catch (error) {
+    console.error(
+      "GOALIX load error:",
+      error
+    );
+
+    if (grid) {
+      grid.innerHTML = `
+        <div class="no-matches">
+          <strong>تعذر تحميل المباريات.</strong>
+          <br>
+          تأكد من اتصال الإنترنت ثم أعد تحميل الصفحة.
+        </div>
+      `;
+    }
+  }
+}
+
+function updatePageDate() {
+  if (!dateElement) return;
+
+  const firstMatch = matches.find(
+    match => match.date
+  );
+
+  if (firstMatch) {
+    dateElement.textContent =
+      formatDate(firstMatch.date);
+  }
+}
+
+/* =========================
+   الدوريات
+========================= */
+
+function renderLeagues() {
+  if (!leagueFilter) return;
+
+  const currentValue =
+    leagueFilter.value || "الكل";
+
+  const leagues = [
+    ...new Set(
+      matches
+        .map(match => match.league)
+        .filter(Boolean)
+    )
+  ].sort((a, b) =>
+    a.localeCompare(b, "en")
+  );
+
+  leagueFilter.innerHTML = `
+    <option value="الكل">
+      كل الدوريات
+    </option>
+
+    ${leagues
+      .map(
+        league => `
+          <option value="${escapeHTML(league)}">
+            ${escapeHTML(league)}
+          </option>
+        `
+      )
+      .join("")}
+  `;
+
+  const exists =
+    leagues.includes(currentValue);
+
+  leagueFilter.value =
+    exists ? currentValue : "الكل";
+}
+
+/* =========================
+   البحث
+========================= */
 
 function renderMatches() {
   if (!grid) return;
@@ -309,38 +427,31 @@ function renderMatches() {
   const query =
     search?.value
       ?.trim()
-      ?.toLowerCase() || "";
+      ?.toLocaleLowerCase("ar-EG") || "";
 
   const selectedLeague =
     leagueFilter?.value || "الكل";
 
-  const filtered =
-    matches.filter(match => {
+  const filtered = matches.filter(match => {
+    const searchable = [
+      match.home,
+      match.away,
+      match.league,
+      match.country
+    ]
+      .join(" ")
+      .toLocaleLowerCase("ar-EG");
 
-      const home =
-        String(match.home || "")
-          .toLowerCase();
+    const searchOK =
+      !query ||
+      searchable.includes(query);
 
-      const away =
-        String(match.away || "")
-          .toLowerCase();
+    const leagueOK =
+      selectedLeague === "الكل" ||
+      match.league === selectedLeague;
 
-      const league =
-        String(match.league || "")
-          .toLowerCase();
-
-      const searchOK =
-        !query ||
-        home.includes(query) ||
-        away.includes(query) ||
-        league.includes(query);
-
-      const leagueOK =
-        selectedLeague === "الكل" ||
-        match.league === selectedLeague;
-
-      return searchOK && leagueOK;
-    });
+    return searchOK && leagueOK;
+  });
 
   if (!filtered.length) {
     grid.innerHTML = `
@@ -354,119 +465,173 @@ function renderMatches() {
 
   const saved = getPredictions();
 
-  grid.innerHTML =
-    filtered
-      .map(match => {
+  grid.innerHTML = filtered
+    .map(match => {
+      const prediction =
+        saved[String(match.id)];
 
-        const prediction =
-          saved[match.id];
+      return `
+        <article
+          class="match-card goalix-match"
+          data-match-id="${match.id}"
+        >
 
-        return `
-          <article
-            class="match-card goalix-match"
-            data-match-id="${Number(match.id)}"
-          >
+          <div class="match-header">
 
-            <div class="match-header">
+            <span
+              class="league"
+              title="${escapeHTML(match.league)}"
+            >
+              ${escapeHTML(match.league)}
+            </span>
 
-              <span class="league">
-                ${escapeHTML(match.league)}
-              </span>
+            <span class="match-status">
+              ${escapeHTML(match.status)}
+            </span>
 
-              <span class="match-status">
-                ${escapeHTML(match.status)}
-              </span>
+          </div>
 
-            </div>
+          <div class="match-time">
+            ${escapeHTML(match.time)}
+          </div>
 
-            <div class="match-time">
-              ${escapeHTML(match.time)}
-            </div>
+          <div class="teams">
 
-            <div class="teams">
+            ${renderTeam(
+              match.home,
+              match.homeLogo
+            )}
 
-              ${renderTeam(
-                match.home,
-                match.homeLogo
-              )}
+            <div class="vs">
 
-              <div class="vs">
+              <span>ضد</span>
 
-                <span>
-                  ضد
-                </span>
-
-                ${getScoreHTML(match)}
-
-              </div>
-
-              ${renderTeam(
-                match.away,
-                match.awayLogo
-              )}
+              ${getScoreHTML(match)}
 
             </div>
 
-            <div class="choices">
+            ${renderTeam(
+              match.away,
+              match.awayLogo
+            )}
 
-              <button
-                class="choice"
-                type="button"
-                onclick="predict(${Number(match.id)}, 'home')"
-              >
-                فوز ${escapeHTML(match.home)}
-              </button>
+          </div>
 
-              <button
-                class="choice"
-                type="button"
-                onclick="predict(${Number(match.id)}, 'draw')"
-              >
-                تعادل
-              </button>
-
-              <button
-                class="choice"
-                type="button"
-                onclick="predict(${Number(match.id)}, 'away')"
-              >
-                فوز ${escapeHTML(match.away)}
-              </button>
-
-            </div>
-
-            <div class="prediction-status">
-
-              ${
-                prediction
-                  ? `
-                    توقعك:
-                    <strong>
-                      ${escapeHTML(
-                        prediction.label
-                      )}
-                    </strong>
-                  `
-                  : `
-                    لم يتم اختيار توقع
-                  `
-              }
-
-            </div>
+          <div class="choices">
 
             <button
-              class="analysis-button"
+              class="choice"
               type="button"
-              onclick="showAnalysis(${Number(match.id)})"
+              data-prediction="home"
+              data-id="${match.id}"
             >
-              تحليل المباراة
+              فوز
+              <span>
+                ${escapeHTML(match.home)}
+              </span>
             </button>
 
-          </article>
-        `;
-      })
-      .join("");
+            <button
+              class="choice"
+              type="button"
+              data-prediction="draw"
+              data-id="${match.id}"
+            >
+              تعادل
+            </button>
+
+            <button
+              class="choice"
+              type="button"
+              data-prediction="away"
+              data-id="${match.id}"
+            >
+              فوز
+              <span>
+                ${escapeHTML(match.away)}
+              </span>
+            </button>
+
+          </div>
+
+          <div class="prediction-status">
+
+            ${
+              prediction
+                ? `
+                  توقعك:
+                  <strong>
+                    ${escapeHTML(
+                      prediction.label
+                    )}
+                  </strong>
+                `
+                : `
+                  لم يتم اختيار توقع
+                `
+            }
+
+          </div>
+
+          <button
+            class="analysis-button"
+            type="button"
+            data-analysis-id="${match.id}"
+          >
+            تحليل المباراة
+          </button>
+
+        </article>
+      `;
+    })
+    .join("");
+
+  bindMatchButtons();
 }
+
+/* =========================
+   أزرار المباريات
+========================= */
+
+function bindMatchButtons() {
+  if (!grid) return;
+
+  grid
+    .querySelectorAll("[data-prediction]")
+    .forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          const id =
+            Number(button.dataset.id);
+
+          const choice =
+            button.dataset.prediction;
+
+          predict(id, choice);
+        }
+      );
+    });
+
+  grid
+    .querySelectorAll("[data-analysis-id]")
+    .forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          showAnalysis(
+            Number(
+              button.dataset.analysisId
+            )
+          );
+        }
+      );
+    });
+}
+
+/* =========================
+   التوقعات
+========================= */
 
 function predict(id, choice) {
   const match =
@@ -487,73 +652,64 @@ function predict(id, choice) {
       `فوز ${match.away}`
   };
 
+  if (!labels[choice]) return;
+
   const saved =
     getPredictions();
 
-  saved[id] = {
+  saved[String(id)] = {
     choice,
-    label: labels[choice]
+    label: labels[choice],
+    createdAt:
+      new Date().toISOString()
   };
 
-  try {
-    localStorage.setItem(
-      "goalix_predictions",
-      JSON.stringify(saved)
-    );
-  } catch (error) {
-    console.warn(
-      "تعذر حفظ التوقع:",
-      error
-    );
-  }
+  savePredictions(saved);
 
   updateCount();
   renderMatches();
 
-  if (analysis) {
-    analysis.innerHTML = `
-      <div class="analysis-box">
-
-        <div class="analysis-title">
-          تم تسجيل توقعك ✅
-        </div>
-
-        <h3>
-          ${escapeHTML(match.home)}
-          ضد
-          ${escapeHTML(match.away)}
-        </h3>
-
-        <p>
-          اختيارك:
-          <strong>
-            ${escapeHTML(labels[choice])}
-          </strong>
-        </p>
-
-      </div>
-    `;
-
-    analysis.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-  }
+  showAnalysis(id, true);
 }
 
-function calculateSimpleAnalysis(match) {
+function updateCount() {
+  if (!predictionCount) return;
+
+  predictionCount.textContent =
+    Object.keys(
+      getPredictions()
+    ).length;
+}
+
+/* =========================
+   التحليل
+========================= */
+
+function calculateAnalysis(match) {
   if (match.homeWinner === true) {
-    return `أفضلية ${match.home}`;
+    return {
+      title:
+        `أفضلية ${match.home}`,
+      type: "home"
+    };
   }
 
   if (match.awayWinner === true) {
-    return `أفضلية ${match.away}`;
+    return {
+      title:
+        `أفضلية ${match.away}`,
+      type: "away"
+    };
   }
 
-  return "المباراة متوازنة";
+  return {
+    title:
+      "المباراة متوازنة",
+    type: "draw"
+  };
 }
 
-function showAnalysis(id) {
+function showAnalysis(id, fromPrediction = false) {
   const match =
     matches.find(
       item => item.id === id
@@ -565,27 +721,51 @@ function showAnalysis(id) {
     getPredictions();
 
   const prediction =
-    saved[id];
+    saved[String(id)];
 
-  const recommendation =
-    calculateSimpleAnalysis(match);
+  const result =
+    calculateAnalysis(match);
 
-  const hasScore =
+  const hasResult =
     match.homeGoals !== null &&
     match.homeGoals !== undefined &&
     match.awayGoals !== null &&
     match.awayGoals !== undefined;
 
+  const score =
+    hasResult
+      ? `${match.homeGoals} - ${match.awayGoals}`
+      : "لم تبدأ";
+
+  const penalties =
+    match.homePenalty !== null &&
+    match.homePenalty !== undefined &&
+    match.awayPenalty !== null &&
+    match.awayPenalty !== undefined
+      ? `
+        <div class="analysis-row">
+          <span>ركلات الترجيح</span>
+          <strong>
+            ${escapeHTML(match.homePenalty)}
+            -
+            ${escapeHTML(match.awayPenalty)}
+          </strong>
+        </div>
+      `
+      : "";
+
   analysis.innerHTML = `
     <div class="analysis-box">
 
       <div class="analysis-title">
-        تحليل GOALIX ⚽
+        ${fromPrediction
+          ? "تم تسجيل توقعك ✅"
+          : "تحليل GOALIX ⚽"}
       </div>
 
       <h3>
         ${escapeHTML(match.home)}
-        ضد
+        <span> ضد </span>
         ${escapeHTML(match.away)}
       </h3>
 
@@ -613,18 +793,16 @@ function showAnalysis(id) {
       <div class="analysis-row">
         <span>النتيجة</span>
         <strong>
-          ${
-            hasScore
-              ? `${escapeHTML(match.homeGoals)} - ${escapeHTML(match.awayGoals)}`
-              : "لم تبدأ"
-          }
+          ${escapeHTML(score)}
         </strong>
       </div>
+
+      ${penalties}
 
       <div class="analysis-row">
         <span>قراءة GOALIX</span>
         <strong>
-          ${escapeHTML(recommendation)}
+          ${escapeHTML(result.title)}
         </strong>
       </div>
 
@@ -632,17 +810,12 @@ function showAnalysis(id) {
         prediction
           ? `
             <div class="analysis-row">
-
-              <span>
-                توقعك
-              </span>
-
+              <span>توقعك</span>
               <strong>
                 ${escapeHTML(
                   prediction.label
                 )}
               </strong>
-
             </div>
           `
           : `
@@ -653,7 +826,8 @@ function showAnalysis(id) {
       }
 
       <p class="analysis-note">
-        تنبيه: هذا تحليل إحصائي مبدئي وليس ضمانًا لنتيجة المباراة.
+        تنبيه: تحليل GOALIX إحصائي مبدئي
+        ولا يضمن نتيجة المباراة.
       </p>
 
     </div>
@@ -665,58 +839,67 @@ function showAnalysis(id) {
   });
 }
 
-function updateCount() {
-  if (!predictionCount) return;
-
-  predictionCount.textContent =
-    Object.keys(
-      getPredictions()
-    ).length;
-}
-
-function scrollToMatches() {
-  document
-    .getElementById("matches-section")
-    ?.scrollIntoView({
-      behavior: "smooth"
-    });
-}
+/* =========================
+   التنقل
+========================= */
 
 function setupTabs() {
-  document
-    .querySelectorAll("nav button")
-    .forEach(button => {
+  const buttons =
+    document.querySelectorAll(
+      "nav button[data-tab]"
+    );
 
-      button.addEventListener(
-        "click",
-        () => {
+  const pages =
+    document.querySelectorAll(
+      ".page"
+    );
 
-          const target =
-            document.getElementById(
-              button.dataset.tab
-            );
+  buttons.forEach(button => {
+    button.addEventListener(
+      "click",
+      () => {
+        const targetId =
+          button.dataset.tab;
 
-          if (!target) return;
+        const target =
+          document.getElementById(
+            targetId
+          );
 
-          document
-            .querySelectorAll("nav button")
-            .forEach(btn =>
-              btn.classList.remove("active")
-            );
+        if (!target) return;
 
-          document
-            .querySelectorAll(".page")
-            .forEach(page =>
-              page.classList.remove("active")
-            );
+        buttons.forEach(item =>
+          item.classList.remove(
+            "active"
+          )
+        );
 
-          button.classList.add("active");
-          target.classList.add("active");
-        }
-      );
+        pages.forEach(page =>
+          page.classList.remove(
+            "active"
+          )
+        );
 
-    });
+        button.classList.add(
+          "active"
+        );
+
+        target.classList.add(
+          "active"
+        );
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    );
+  });
 }
+
+/* =========================
+   الوضع الليلي / النهاري
+========================= */
 
 function setupTheme() {
   const theme =
@@ -724,32 +907,40 @@ function setupTheme() {
 
   if (!theme) return;
 
-  const savedTheme =
-    localStorage.getItem("goalix_theme");
+  let savedTheme = null;
+
+  try {
+    savedTheme =
+      localStorage.getItem(
+        "goalix_theme"
+      );
+  } catch {}
 
   if (savedTheme === "light") {
-    document.body.classList.add("light");
+    document.body.classList.add(
+      "light"
+    );
+
     theme.textContent = "☀";
     theme.setAttribute(
       "aria-label",
-      "تفعيل المظهر الداكن"
+      "تفعيل الوضع الداكن"
     );
   } else {
     theme.textContent = "☾";
     theme.setAttribute(
       "aria-label",
-      "تفعيل المظهر الفاتح"
+      "تفعيل الوضع الفاتح"
     );
   }
 
   theme.addEventListener(
     "click",
     () => {
-
-      document.body.classList.toggle("light");
-
       const isLight =
-        document.body.classList.contains("light");
+        document.body.classList.toggle(
+          "light"
+        );
 
       theme.textContent =
         isLight ? "☀" : "☾";
@@ -757,17 +948,25 @@ function setupTheme() {
       theme.setAttribute(
         "aria-label",
         isLight
-          ? "تفعيل المظهر الداكن"
-          : "تفعيل المظهر الفاتح"
+          ? "تفعيل الوضع الداكن"
+          : "تفعيل الوضع الفاتح"
       );
 
-      localStorage.setItem(
-        "goalix_theme",
-        isLight ? "light" : "dark"
-      );
+      try {
+        localStorage.setItem(
+          "goalix_theme",
+          isLight
+            ? "light"
+            : "dark"
+        );
+      } catch {}
     }
   );
 }
+
+/* =========================
+   البحث والفلاتر
+========================= */
 
 if (search) {
   search.addEventListener(
@@ -782,6 +981,26 @@ if (leagueFilter) {
     renderMatches
   );
 }
+
+/* =========================
+   زر مباريات اليوم
+========================= */
+
+window.scrollToMatches =
+  function () {
+    document
+      .getElementById(
+        "matches-section"
+      )
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+  };
+
+/* =========================
+   تشغيل GOALIX
+========================= */
 
 setupTabs();
 setupTheme();
