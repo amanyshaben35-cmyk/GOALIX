@@ -1,70 +1,35 @@
-let matches = [
-  {
-    id: 1,
-    league: "الدوري الإنجليزي الممتاز",
-    home: "أرسنال",
-    away: "مانشستر سيتي",
-    time: "20:00"
-  },
-  {
-    id: 2,
-    league: "الدوري الإسباني",
-    home: "برشلونة",
-    away: "ريال مدريد",
-    time: "22:00"
-  },
-  {
-    id: 3,
-    league: "الدوري الإيطالي",
-    home: "إنتر",
-    away: "ميلان",
-    time: "21:45"
-  }
-];
+<div class="goalix-controls">
 
-const grid = document.getElementById("matches");
-const analysis = document.getElementById("analysis");
+  <input
+    id="search"
+    type="search"
+    placeholder="ابحث عن فريق أو دوري..."
+    aria-label="البحث عن فريق أو دوري"
+  >
 
-function renderMatches() {
-  grid.innerHTML = matches.map(m => `
-    <article class="match-card">
-      <div class="league">${m.league}</div>
-      <div class="match-time">${m.time}</div>
+  <select id="league-filter" aria-label="اختيار الدوري">
+    <option value="الكل">كل الدوريات</option>
+  </select>
 
-      <div class="teams">
-        <div class="team">${m.home}</div>
-        <div class="vs">ضد</div>
-        <div class="team">${m.away}</div>
-      </div>
+</div>
 
-      <div class="choices">
-        <button class="choice" onclick="predict(${m.id}, '${m.home}')">
-          ${m.home}
-        </button>
-        <button class="choice" onclick="predict(${m.id}, 'تعادل')">
-          تعادل
-        </button>
-        <button class="choice" onclick="predict(${m.id}, '${m.away}')">
-          ${m.away}
-        </button>
-      </div>
-    </article>
-  `).join("");
-}
+<div id="matches-section">
 
-function predict(id, choice) {
-  const match = matches.find(m => m.id === id);
+  <div id="matches"></div>
 
-  if (analysis) {
-    analysis.textContent =
-      `تم تسجيل توقعك: ${choice} في مباراة ${match.home} ضد ${match.away}`;
-  }
-}
+</div>
 
-function scrollToMatches() {
-  document.getElementById("matches-section")?.scrollIntoView({
-    behavior: "smooth"
-  });
-}
+<section class="goalix-analysis">
 
-renderMatches();
+  <h2>تحليل GOALIX</h2>
+
+  <div id="analysis">
+    <p>اختر مباراة لعرض التحليل.</p>
+  </div>
+
+</section>
+
+<div class="goalix-stats">
+  توقعاتك:
+  <strong id="prediction-count">0</strong>
+</div>
