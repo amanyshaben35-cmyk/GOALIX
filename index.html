@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="ar" dir="rtl" translate="no">
 
@@ -27,28 +28,44 @@
     content="index,follow"
   >
 
-  <!-- Google AdSense -->
+  <!-- =====================================================
+       GOOGLE ADSENSE - AUTO ADS
+       ===================================================== -->
+
   <script
     async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5438818138576734"
     crossorigin="anonymous"
   ></script>
 
+
+  <!-- PWA -->
+
   <link
     rel="manifest"
     href="/GOALIX/manifest.json"
   >
+
+
+  <!-- CSS -->
 
   <link
     rel="stylesheet"
     href="style.css"
   >
 
+
   <title>GOALIX Sports</title>
 
 </head>
 
+
 <body>
+
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
 
   <header>
 
@@ -67,9 +84,17 @@
   </header>
 
 
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
   <main>
 
-    <!-- الصفحة الرئيسية -->
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
 
     <section class="hero">
 
@@ -97,7 +122,10 @@
     </section>
 
 
-    <!-- التنقل -->
+
+    <!-- ===================================================
+         NAVIGATION
+         =================================================== -->
 
     <nav aria-label="التنقل الرئيسي">
 
@@ -133,7 +161,10 @@
     </nav>
 
 
-    <!-- المباريات -->
+
+    <!-- ===================================================
+         MATCHES
+         =================================================== -->
 
     <section
       id="matches-section"
@@ -150,6 +181,8 @@
 
       </div>
 
+
+      <!-- SEARCH + FILTER -->
 
       <div class="goalix-controls">
 
@@ -174,6 +207,8 @@
       </div>
 
 
+      <!-- MATCHES LIST -->
+
       <div id="matches">
 
         <div class="no-matches">
@@ -183,7 +218,10 @@
       </div>
 
 
-      <!-- التحليل -->
+
+      <!-- =================================================
+           ANALYSIS
+           ================================================= -->
 
       <section class="goalix-analysis">
 
@@ -202,7 +240,10 @@
       </section>
 
 
-      <!-- عدد التوقعات -->
+
+      <!-- =================================================
+           PREDICTION COUNT
+           ================================================= -->
 
       <div class="goalix-stats">
 
@@ -217,7 +258,10 @@
     </section>
 
 
-    <!-- الدوريات -->
+
+    <!-- ===================================================
+         LEAGUES
+         =================================================== -->
 
     <section
       id="leagues"
@@ -270,7 +314,10 @@
     </section>
 
 
-    <!-- الفرق -->
+
+    <!-- ===================================================
+         TEAMS
+         =================================================== -->
 
     <section
       id="teams"
@@ -316,7 +363,10 @@
     </section>
 
 
-    <!-- GOALIX Premium -->
+
+    <!-- ===================================================
+         GOALIX PREMIUM
+         =================================================== -->
 
     <section
       id="premium"
@@ -338,6 +388,8 @@
           واستفد من المزايا الإضافية.
         </p>
 
+
+        <!-- PRICE -->
 
         <div
           class="premium-price"
@@ -366,6 +418,9 @@
         </div>
 
 
+
+        <!-- FEATURES -->
+
         <div
           class="premium-features"
           style="
@@ -388,6 +443,9 @@
 
         </div>
 
+
+
+        <!-- SUBSCRIBE BUTTON -->
 
         <button
           type="button"
@@ -416,7 +474,10 @@
         </button>
 
 
-        <!-- طرق الدفع -->
+
+        <!-- =================================================
+             PAYMENT OPTIONS
+             ================================================= -->
 
         <div
           id="payment-options"
@@ -427,6 +488,8 @@
             طرق الدفع
           </h3>
 
+
+          <!-- INSTAPAY -->
 
           <div class="analysis-row">
 
@@ -440,6 +503,8 @@
 
           </div>
 
+
+          <!-- VODAFONE CASH -->
 
           <div class="analysis-row">
 
@@ -463,6 +528,9 @@
 
           </p>
 
+
+
+          <!-- WHATSAPP -->
 
           <a
             href="https://wa.me/201010970035?text=مرحباً%20GOALIX%20أريد%20الاشتراك%20في%20GOALIX%20Premium%20بسعر%2049%20جنيه"
@@ -493,39 +561,27 @@
     </section>
 
 
-    <!-- إعلان AdSense -->
 
-    <section
-      class="goalix-ad"
-      aria-label="إعلان"
-      style="
-        margin:25px 0;
-        text-align:center;
-      "
-    >
+    <!-- ===================================================
+         ADSENSE
+         
+         ملاحظة:
+         تم حذف وحدة الإعلان اليدوية القديمة التي كانت
+         تستخدم data-ad-slot="auto".
 
-      <ins
-        class="adsbygoogle"
-        style="
-          display:block;
-          min-height:100px;
-        "
-        data-ad-client="ca-pub-5438818138576734"
-        data-ad-slot="auto"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
+         نحن الآن نستخدم Auto Ads من كود AdSense
+         الموجود في <head>.
+         =================================================== -->
 
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
 
-    </section>
 
   </main>
 
 
-  <!-- التذييل -->
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
 
   <footer>
 
@@ -542,12 +598,18 @@
   </footer>
 
 
-  <!-- JavaScript -->
+
+  <!-- =====================================================
+       APP JAVASCRIPT
+       ===================================================== -->
 
   <script src="app.js"></script>
 
 
-  <!-- Service Worker -->
+
+  <!-- =====================================================
+       SERVICE WORKER / PWA
+       ===================================================== -->
 
   <script>
 
@@ -563,10 +625,12 @@
             )
             .catch(
               error => {
+
                 console.log(
                   "GOALIX Service Worker:",
                   error
                 );
+
               }
             );
 
@@ -577,6 +641,8 @@
 
   </script>
 
+
 </body>
 
 </html>
+```
