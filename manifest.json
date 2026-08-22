@@ -4,22 +4,25 @@
   "description": "نتائج ومباريات وإحصائيات وتحليلات رياضية",
   "lang": "ar",
   "dir": "rtl",
-  "start_url": "/GOALIX/",
-  "scope": "/GOALIX/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#070d19",
   "theme_color": "#27d17f",
   "orientation": "portrait-primary",
+  "id": "/",
   "icons": [
     {
-      "src": "/GOALIX/icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/GOALIX/icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
